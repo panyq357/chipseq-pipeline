@@ -1,0 +1,45 @@
+
+transcript_bed: "../index/at/tair/results/custom_bed/transcript.bed"
+
+bamCompare-pairs:
+  JA-1-compare:
+    ip: IP_JA-1
+    input: Input_JA-1
+  JA-2-compare:
+    ip: IP_JA-2
+    input: Input_JA-2
+  JA-3-compare:
+    ip: IP_JA-3
+    input: Input_JA-3
+  Mock-1-compare:
+    ip: IP_Mock-1
+    input: Input_Mock-1
+  Mock-2-compare:
+    ip: IP_Mock-2
+    input: Input_Mock-2
+  Mock-3-compare:
+    ip: IP_Mock-3
+    input: Input_Mock-3
+
+tss-to-tes-jobs:
+  compare:
+    - "results/bamCompare/JA-1-compare.bw"
+    - "results/bamCompare/JA-2-compare.bw"
+    - "results/bamCompare/JA-3-compare.bw"
+    - "results/bamCompare/Mock-1-compare.bw"
+    - "results/bamCompare/Mock-2-compare.bw"
+    - "results/bamCompare/Mock-3-compare.bw"
+  coverage:
+    - "results/bamCoverage/IP_JA-1.bw"
+    - "results/bamCoverage/IP_JA-2.bw"
+    - "results/bamCoverage/IP_JA-3.bw"
+    - "results/bamCoverage/Input_JA-1.bw"
+    - "results/bamCoverage/Input_JA-2.bw"
+    - "results/bamCoverage/Input_JA-3.bw"
+    - "results/bamCoverage/IP_Mock-1.bw"
+    - "results/bamCoverage/IP_Mock-2.bw"
+    - "results/bamCoverage/IP_Mock-3.bw"
+    - "results/bamCoverage/Input_Mock-1.bw"
+    - "results/bamCoverage/Input_Mock-2.bw"
+    - "results/bamCoverage/Input_Mock-3.bw"
+    

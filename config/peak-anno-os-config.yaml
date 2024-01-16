@@ -1,0 +1,38 @@
+
+peak-anno-gtf: "../index/os/rap-db/results/gtf/os.rap-db.make.gtf"
+
+# O. sativa specific config.
+oryzabase-xlsx: "/home/panyq/Tools/onto-scripts/oryzabase-ontologies-2024-01-04.xlsx"
+oryzabase-sheet: ["RAP_GO", "RAP_TO", "RAP_PO"]
+
+peak-anno-macs-jobs:  # .xls for macs peaks, .rds for diffbind peaks.
+  JA-1-no-input:
+    peak: results/macs_callpeak/JA-1-no-input/JA-1-no-input_peaks.xls
+  JA-1-with-input:
+    peak: results/macs_callpeak/JA-1-with-input/JA-1-with-input_peaks.xls
+  JA-2-no-input:
+    peak: results/macs_callpeak/JA-2-no-input/JA-2-no-input_peaks.xls
+  JA-2-with-input:
+    peak: results/macs_callpeak/JA-2-with-input/JA-2-with-input_peaks.xls
+  JA-3-no-input:
+    peak: results/macs_callpeak/JA-3-no-input/JA-3-no-input_peaks.xls
+  JA-3-with-input:
+    peak: results/macs_callpeak/JA-3-with-input/JA-3-with-input_peaks.xls
+  Mock-1-no-input:
+    peak: results/macs_callpeak/Mock-1-no-input/Mock-1-no-input_peaks.xls
+  Mock-1-with-input:
+    peak: results/macs_callpeak/Mock-1-with-input/Mock-1-with-input_peaks.xls
+  Mock-2-no-input:
+    peak: results/macs_callpeak/Mock-2-no-input/Mock-2-no-input_peaks.xls
+  Mock-2-with-input:
+    peak: results/macs_callpeak/Mock-2-with-input/Mock-2-with-input_peaks.xls
+  Mock-3-no-input:
+    peak: results/macs_callpeak/Mock-3-no-input/Mock-3-no-input_peaks.xls
+  Mock-3-with-input:
+    peak: results/macs_callpeak/Mock-3-with-input/Mock-3-with-input_peaks.xls
+peak-anno-diffbind-jobs:
+  diffbind-no-input:
+    peak: results/diffbind_analyze/no-input/no-input.report.rds
+  diffbind-with-input:
+    peak: results/diffbind_analyze/with-input/with-input.report.rds
+

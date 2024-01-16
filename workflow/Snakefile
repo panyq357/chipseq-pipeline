@@ -1,0 +1,40 @@
+include: "rules/reads2bwa.smk"
+include: "rules/callpeak.smk"
+include: "rules/deeptools.smk"
+include: "rules/binding-motif.smk"
+include: "rules/diffbind.smk"
+include: "rules/peak-to-gene.smk"
+include: "rules/peak-anno-at.smk"
+# include: "rules/peak-anno-os.smk"  # TODO
+
+
+rule all:
+    input:
+        # reads2bwa
+        expand("results/bwa_mapping/{sample}.flagstats.txt", sample=config["samples"]),
+
+        # callpeak
+        expand("results/macs_callpeak/{peak}", peak=config["peaks"]),
+
+        # deeptools
+        expand("results/tss_to_tes_heatmap/{job}.tss_to_tes.{plot_type}.png", job=config["tss-to-tes-jobs"], plot_type=["heatmap", "profile"]),
+        expand("results/peak_heatmap/{peak}.heatmap.png", peak=config["peaks"]),
+
+        # binding-motif
+        expand("results/meme/{job}", job=config["binding-motif-jobs"]),
+
+        # diffbind
+        expand("results/diffbind_analyze/{sheet}/{sheet}.report.csv", sheet=config["diffbind-sample-sheets"]),
+        expand("results/diff_peak_heatmap/{sheet}.diff_peak_heatmap.png", sheet=config["diffbind-sample-sheets"]),
+
+        # peak-to-gene
+        expand("results/peak_anno/{peak}/{peak}.peak_to_gene_macs.csv", peak=config["peaks"]),
+        expand("results/peak_anno/{job}/{job}.peak_to_gene_diffbind.csv", job=config["diffbind-sample-sheets"]),
+
+        # peak-anno-at
+        expand("results/peak_anno/{job}/{job}.at_anno_diffbind.xlsx", job=config["diffbind-sample-sheets"]),
+        expand("results/peak_anno/{peak}/{peak}.at_anno_macs.xlsx", peak=config["peaks"])
+
+#        # peak-anno-os  # TODO
+#        expand("results/peos_anno/{job}/{job}.oryzabase_anno_macs.xlsx", job=config["peaks"])
+

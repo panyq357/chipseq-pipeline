@@ -1,0 +1,19 @@
+diffbind-sample-sheets:  # Ref group in top, others in bottom.
+  no-input: "config/diffbind-sample-sheet/no-input.csv"
+  with-input: "config/diffbind-sample-sheet/with-input.csv"
+
+diff-peak-heatmap-bw:
+  no-input:
+    - "results/bamCoverage/IP_JA-1.bw"
+    - "results/bamCoverage/IP_JA-2.bw"
+    - "results/bamCoverage/IP_JA-3.bw"
+    - "results/bamCoverage/IP_Mock-1.bw"
+    - "results/bamCoverage/IP_Mock-2.bw"
+    - "results/bamCoverage/IP_Mock-3.bw"
+  with-input:
+    - "results/bamCompare/JA-1-compare.bw"
+    - "results/bamCompare/JA-2-compare.bw"
+    - "results/bamCompare/JA-3-compare.bw"
+    - "results/bamCompare/Mock-1-compare.bw"
+    - "results/bamCompare/Mock-2-compare.bw"
+    - "results/bamCompare/Mock-3-compare.bw"

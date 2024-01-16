@@ -1,0 +1,7 @@
+SampleID,Factor,Replicate,bamReads,Peaks,PeakCaller,ControlID,bamControl
+IP_Mock-1,Mock,1,results/bwa_mapping/IP_Mock-1.bam,results/macs_callpeak/Mock-1-no-input/Mock-1-no-input_peaks.xls,macs,Input_Mock-1,results/bwa_mapping/Input_Mock-1.bam
+IP_Mock-2,Mock,2,results/bwa_mapping/IP_Mock-2.bam,results/macs_callpeak/Mock-2-no-input/Mock-2-no-input_peaks.xls,macs,Input_Mock-2,results/bwa_mapping/Input_Mock-2.bam
+IP_Mock-3,Mock,3,results/bwa_mapping/IP_Mock-3.bam,results/macs_callpeak/Mock-3-no-input/Mock-3-no-input_peaks.xls,macs,Input_Mock-3,results/bwa_mapping/Input_Mock-3.bam
+IP_JA-1,JA,1,results/bwa_mapping/IP_JA-1.bam,results/macs_callpeak/JA-1-no-input/JA-1-no-input_peaks.xls,macs,Input_JA-1,results/bwa_mapping/Input_JA-1.bam
+IP_JA-2,JA,2,results/bwa_mapping/IP_JA-2.bam,results/macs_callpeak/JA-2-no-input/JA-2-no-input_peaks.xls,macs,Input_JA-2,results/bwa_mapping/Input_JA-2.bam
+IP_JA-3,JA,3,results/bwa_mapping/IP_JA-3.bam,results/macs_callpeak/JA-3-no-input/JA-3-no-input_peaks.xls,macs,Input_JA-3,results/bwa_mapping/Input_JA-3.bam

@@ -1,0 +1,48 @@
+macs_format: "BAMPE"
+
+# TAIR10: 120000000, IRGSP-1.0: 370000000
+mappable_genome_size: 120000000
+
+peaks:
+  JA-1-with-input:
+    type: "narrow"
+    ip: "IP_JA-1"
+    input: "Input_JA-1"
+  JA-2-with-input:
+    type: "narrow"
+    ip: "IP_JA-2"
+    input: "Input_JA-2"
+  JA-3-with-input:
+    type: "narrow"
+    ip: "IP_JA-3"
+    input: "Input_JA-3"
+  Mock-1-with-input:
+    type: "narrow"
+    ip: "IP_Mock-1"
+    input: "Input_Mock-1"
+  Mock-2-with-input:
+    type: "narrow"
+    ip: "IP_Mock-2"
+    input: "Input_Mock-2"
+  Mock-3-with-input:
+    type: "narrow"
+    ip: "IP_Mock-3"
+    input: "Input_Mock-3"
+  JA-1-no-input:
+    type: "narrow"
+    ip: "IP_JA-1"
+  JA-2-no-input:
+    type: "narrow"
+    ip: "IP_JA-2"
+  JA-3-no-input:
+    type: "narrow"
+    ip: "IP_JA-3"
+  Mock-1-no-input:
+    type: "narrow"
+    ip: "IP_Mock-1"
+  Mock-2-no-input:
+    type: "narrow"
+    ip: "IP_Mock-2"
+  Mock-3-no-input:
+    type: "narrow"
+    ip: "IP_Mock-3"

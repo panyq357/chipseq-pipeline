@@ -1,0 +1,8 @@
+**/rawdata/*
+!rawdata/download_links.txt
+**/resources/*
+**/results/*
+**/logs/*
+**/.RData
+**/.snakemake/*
+**/STDOUT_warnings.txt
