@@ -1,13 +1,17 @@
 binding-motif-jobs:
-  Mock-1-with-input-top-1000-radius-50:
-    peak: JA-1-with-input
+  DAP_1-with-input-top-1000-radius-50:
+    peak: DAP_1-with-input
     top: 1000
     radius: 50
-  Mock-2-with-input-top-1000-radius-50:
-    peak: JA-2-with-input
+  DAP_2-with-input-top-1000-radius-50:
+    peak: DAP_2-with-input
     top: 1000
     radius: 50
-  Mock-3-with-input-top-1000-radius-50:
-    peak: JA-3-with-input
+  DAP_1-no-input-top-1000-radius-50:
+    peak: DAP_1-no-input
+    top: 1000
+    radius: 50
+  DAP_2-no-input-top-1000-radius-50:
+    peak: DAP_2-no-input
     top: 1000
     radius: 50

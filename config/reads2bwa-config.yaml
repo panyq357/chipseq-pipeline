@@ -2,45 +2,21 @@
 # author: panyq357
 # date: 2023-11-06
 
-bwa_index_prefix: ../index/at/tair/results/genome/at.tair10.genome.fa
+bwa_index_prefix: /home/panyq/Tools/index-scripts/os/rap-db/results/genome/os.rap-db.genome.fa
 
 samples:
-  IP_Mock-1:
-    R1: ../rawdata/SRR13791121_1.fastq.gz
-    R2: ../rawdata/SRR13791121_2.fastq.gz
-  IP_Mock-2:
-    R1: ../rawdata/SRR13791110_1.fastq.gz
-    R2: ../rawdata/SRR13791110_2.fastq.gz
-  IP_Mock-3:
-    R1: ../rawdata/SRR13791111_1.fastq.gz
-    R2: ../rawdata/SRR13791111_2.fastq.gz
-  Input_JA-1:
-    R1: ../rawdata/SRR13791112_1.fastq.gz
-    R2: ../rawdata/SRR13791112_2.fastq.gz
-  Input_JA-2:
-    R1: ../rawdata/SRR13791113_1.fastq.gz
-    R2: ../rawdata/SRR13791113_2.fastq.gz
-  Input_JA-3:
-    R1: ../rawdata/SRR13791114_1.fastq.gz
-    R2: ../rawdata/SRR13791114_2.fastq.gz
-  Input_Mock-1:
-    R1: ../rawdata/SRR13791115_1.fastq.gz
-    R2: ../rawdata/SRR13791115_2.fastq.gz
-  Input_Mock-2:
-    R1: ../rawdata/SRR13791116_1.fastq.gz
-    R2: ../rawdata/SRR13791116_2.fastq.gz
-  Input_Mock-3:
-    R1: ../rawdata/SRR13791117_1.fastq.gz
-    R2: ../rawdata/SRR13791117_2.fastq.gz
-  IP_JA-1:
-    R1: ../rawdata/SRR13791118_1.fastq.gz
-    R2: ../rawdata/SRR13791118_2.fastq.gz
-  IP_JA-2:
-    R1: ../rawdata/SRR13791119_1.fastq.gz
-    R2: ../rawdata/SRR13791119_2.fastq.gz
-  IP_JA-3:
-    R1: ../rawdata/SRR13791120_1.fastq.gz
-    R2: ../rawdata/SRR13791120_2.fastq.gz
+  DAP_1:
+    R1: "/mnt/d/LYHLabData/ZGZ.2023-05-11.large3n-his-DAP-seq/2018972-05/190707_A00679_0139_BHLY3VDSXX/DAP_L4_395395.R1.fastq.gz"
+    R2: "/mnt/d/LYHLabData/ZGZ.2023-05-11.large3n-his-DAP-seq/2018972-05/190707_A00679_0139_BHLY3VDSXX/DAP_L4_395395.R2.fastq.gz"
+  DAP_2:
+    R1: "/mnt/d/LYHLabData/ZGZ.2023-05-11.large3n-his-DAP-seq/2018972-05/190712_A00682_0160_AHLY52DSXX/DAP_L4_395395.R1.fastq.gz"
+    R2: "/mnt/d/LYHLabData/ZGZ.2023-05-11.large3n-his-DAP-seq/2018972-05/190712_A00682_0160_AHLY52DSXX/DAP_L4_395395.R2.fastq.gz"
+  DAP_control_1:
+    R1: "/mnt/d/LYHLabData/ZGZ.2023-05-11.large3n-his-DAP-seq/2018972-05/190705_A00262_0310_BHJWJ2DSXX/DAP-control_L2_395395.R1.fastq.gz"
+    R2: "/mnt/d/LYHLabData/ZGZ.2023-05-11.large3n-his-DAP-seq/2018972-05/190705_A00262_0310_BHJWJ2DSXX/DAP-control_L2_395395.R2.fastq.gz"
+  DAP_control_2:
+    R1: "/mnt/d/LYHLabData/ZGZ.2023-05-11.large3n-his-DAP-seq/2018972-05/190712_A00682_0159_BHLWNWDSXX/DAP-control_L3_395395.R1.fastq.gz"
+    R2: "/mnt/d/LYHLabData/ZGZ.2023-05-11.large3n-his-DAP-seq/2018972-05/190712_A00682_0159_BHLWNWDSXX/DAP-control_L3_395395.R2.fastq.gz"
 
 threads:  # threads setting for rules
   fastp_pe: 4

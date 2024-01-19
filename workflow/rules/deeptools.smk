@@ -31,10 +31,10 @@ def get_bam(sample):
 
 rule bamCompare:
     input:
-        b1 = lambda w: get_bam(config["bamCompare-pairs"][w.compare]["ip"]),
-        b2 = lambda w: get_bam(config["bamCompare-pairs"][w.compare]["input"])
+        b1 = lambda w: get_bam(config["peaks"][w.peak_with_input]["ip"]),
+        b2 = lambda w: get_bam(config["peaks"][w.peak_with_input]["input"])
     output:
-        "results/bamCompare/{compare}.bw"
+        "results/bamCompare/{peak_with_input}-compare.bw"
     params:
         mappable_genome_size = config["mappable_genome_size"]
     threads:
@@ -42,7 +42,7 @@ rule bamCompare:
     resources:
         disk_io = 10
     log:
-        "logs/bamCompare/{compare}.log"
+        "logs/bamCompare/{peak_with_input}.log"
     shell:
         '''
         bamCompare \
