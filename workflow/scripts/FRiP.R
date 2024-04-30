@@ -25,6 +25,8 @@ fc_stat <- apply(config$peak_info, 1, function(row) {
         nthreads = 10
     )
 
+    file.remove(temp_gtf)
+
     return(setNames(fc$stat[[2]], fc$stat[[1]]))
 })
 
