@@ -4,17 +4,11 @@ macs_format: "BAMPE"
 mappable_genome_size: 370000000
 
 peaks:
-  DAP_1-with-input:
+  PC48:
     type: "narrow"
-    ip: "DAP_1"
-    input: "DAP_control_1"
-  DAP_2-with-input:
+    ip: "PC48"
+    input: "GFP"
+  PC54:
     type: "narrow"
-    ip: "DAP_2"
-    input: "DAP_control_2"
-  DAP_1-no-input:
-    type: "narrow"
-    ip: "DAP_1"
-  DAP_2-no-input:
-    type: "narrow"
-    ip: "DAP_2"
+    ip: "PC54"
+    input: "GFP"

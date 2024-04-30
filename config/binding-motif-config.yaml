@@ -1,17 +1,9 @@
 binding-motif-jobs:
-  DAP_1-with-input-top-1000-radius-50:
-    peak: DAP_1-with-input
+  PC48-top-1000-radius-50:
+    peak: PC48
     top: 1000
     radius: 50
-  DAP_2-with-input-top-1000-radius-50:
-    peak: DAP_2-with-input
-    top: 1000
-    radius: 50
-  DAP_1-no-input-top-1000-radius-50:
-    peak: DAP_1-no-input
-    top: 1000
-    radius: 50
-  DAP_2-no-input-top-1000-radius-50:
-    peak: DAP_2-no-input
+  PC54-top-1000-radius-50:
+    peak: PC54
     top: 1000
     radius: 50

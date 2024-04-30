@@ -5,7 +5,7 @@ include: "rules/binding-motif.smk"
 include: "rules/diffbind.smk"
 include: "rules/peak-to-gene.smk"
 include: "rules/peak-anno-at.smk"
-# include: "rules/peak-anno-os.smk"  # TODO
+include: "rules/peak-anno-os.smk"
 
 
 rule all:
@@ -19,22 +19,23 @@ rule all:
         # deeptools
         expand("results/tss_to_tes_heatmap/{job}.tss_to_tes.{plot_type}.png", job=config["tss-to-tes-jobs"], plot_type=["heatmap", "profile"]),
         expand("results/peak_heatmap/{peak}.heatmap.png", peak=config["peaks"]),
+        "results/FRiP.png",
 
         # binding-motif
         expand("results/meme/{job}", job=config["binding-motif-jobs"]),
-
-        # diffbind
-        expand("results/diffbind_analyze/{sheet}/{sheet}.report.csv", sheet=config["diffbind-sample-sheets"]),
-        expand("results/diff_peak_heatmap/{sheet}.diff_peak_heatmap.png", sheet=config["diffbind-sample-sheets"]),
-
+#
+#        # diffbind
+#        expand("results/diffbind_analyze/{sheet}/{sheet}.report.csv", sheet=config["diffbind-sample-sheets"]),
+#        expand("results/diff_peak_heatmap/{sheet}.diff_peak_heatmap.png", sheet=config["diffbind-sample-sheets"]),
+#
         # peak-to-gene
         expand("results/peak_anno/{peak}/{peak}.peak_to_gene_macs.csv", peak=config["peaks"]),
-        expand("results/peak_anno/{job}/{job}.peak_to_gene_diffbind.csv", job=config["diffbind-sample-sheets"]),
+#        expand("results/peak_anno/{job}/{job}.peak_to_gene_diffbind.csv", job=config["diffbind-sample-sheets"]),
+#
+#        # peak-anno-at
+#        expand("results/peak_anno/{job}/{job}.at_anno_diffbind.xlsx", job=config["diffbind-sample-sheets"]),
+#        expand("results/peak_anno/{peak}/{peak}.at_anno_macs.xlsx", peak=config["peaks"])
 
-        # peak-anno-at
-        expand("results/peak_anno/{job}/{job}.at_anno_diffbind.xlsx", job=config["diffbind-sample-sheets"]),
-        expand("results/peak_anno/{peak}/{peak}.at_anno_macs.xlsx", peak=config["peaks"])
-
-#        # peak-anno-os  # TODO
-#        expand("results/peos_anno/{job}/{job}.oryzabase_anno_macs.xlsx", job=config["peaks"])
+        # peak-anno-os
+        expand("results/peak_anno/{job}/{job}.oryzabase_anno_macs.xlsx", job=config["peaks"])
 

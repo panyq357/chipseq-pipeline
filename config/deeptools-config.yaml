@@ -2,12 +2,11 @@
 transcript_bed: "/home/panyq/Tools/index-scripts/os/rap-db/results/custom_bed/transcript.bed"
 
 tss-to-tes-jobs:
-  compare:  # format: "results/bamCompare/{peak_with_input}-compare.bw"
-    - "results/bamCompare/DAP_1-with-input-compare.bw"
-    - "results/bamCompare/DAP_2-with-input-compare.bw"
+#  compare:  # format: "results/bamCompare/{peak_with_input}-compare.bw"
+#    - "results/bamCompare/DAP_1-with-input-compare.bw"
+#    - "results/bamCompare/DAP_2-with-input-compare.bw"
   coverage:  # format: "results/bamCoverage/{sample}.bw" 
-    - "results/bamCoverage/DAP_1.bw"
-    - "results/bamCoverage/DAP_control_1.bw"
-    - "results/bamCoverage/DAP_2.bw"
-    - "results/bamCoverage/DAP_control_2.bw"
+    - "results/bamCoverage/PC48.bw"
+    - "results/bamCoverage/PC54.bw"
+    - "results/bamCoverage/GFP.bw"
     

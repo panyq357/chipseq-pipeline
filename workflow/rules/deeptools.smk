@@ -156,3 +156,16 @@ rule peak_heatmap:
             -out {output.png} >> {log} 2>&1
         '''
 
+
+rule FRiP:
+    input:
+        bed = [get_peak_bed(peak) for peak in config["peaks"]],
+        bam = [get_bam(config["peaks"][peak]["ip"]) for peak in config["peaks"]]
+    output:
+        fc_stat = "results/FRiP.fc_stat.csv",
+        plot = "results/FRiP.png"
+    params:
+        peak_names = config["peaks"].keys()
+    script:
+        "../scripts/FRiP.R"
+

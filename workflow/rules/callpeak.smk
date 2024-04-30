@@ -12,7 +12,6 @@ rule macs_with_input:
         ip_bam = lambda w: get_bam(config["peaks"][w.peak]["ip"]),
         input_bam = lambda w: get_bam(config["peaks"][w.peak]["input"])
     output:
-        out_dir = directory("results/macs_callpeak/{peak}"),
         peak = "results/macs_callpeak/{peak}/{peak}_peaks.xls"
     params:
         bam_format = config["macs_format"],
@@ -47,7 +46,6 @@ rule macs_no_input:
     input:
         ip_bam = lambda w: get_bam(config["peaks"][w.peak]["ip"])
     output:
-        out_dir = directory("results/macs_callpeak/{peak}"),
         peak = "results/macs_callpeak/{peak}/{peak}_peaks.xls"
     params:
         bam_format = config["macs_format"],
