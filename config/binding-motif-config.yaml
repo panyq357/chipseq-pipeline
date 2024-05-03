@@ -1,9 +1,41 @@
 binding-motif-jobs:
-  PC48-top-1000-radius-50:
+  PC48-top-1000:
     peak: PC48
-    top: 1000
-    radius: 50
-  PC54-top-1000-radius-50:
+    params:
+      ref_point: "summit"           # "summit" (peak summit) or "center" (center of peak).
+      p_th: 0.001
+      q_th: 0.01
+      fold_range: [ 5, 50 ]
+      rank_by: "-log10(pvalue)"  # column names in MACS xls file.
+      top: 1000                  # after filtering, keep top n peak.
+      radius: 50
+  PC54-top-1000:
     peak: PC54
-    top: 1000
-    radius: 50
+    params:
+      ref_point: "summit"
+      p_th: 0.001
+      q_th: 0.01
+      fold_range: [ 5, 50 ]
+      rank_by: "-log10(pvalue)"
+      top: 1000
+      radius: 50
+  PC48-top-all:
+    peak: PC48
+    params:
+      ref_point: "summit"           # "summit" (peak summit) or "center" (center of peak).
+      p_th: 0.001
+      q_th: 0.01
+      fold_range: [ 5, 50 ]
+      rank_by: "-log10(pvalue)"  # column names in MACS xls file.
+      top: 100000                  # after filtering, keep top n peak.
+      radius: 50
+  PC54-top-all:
+    peak: PC54
+    params:
+      ref_point: "summit"
+      p_th: 0.001
+      q_th: 0.01
+      fold_range: [ 5, 50 ]
+      rank_by: "-log10(pvalue)"
+      top: 100000
+      radius: 50

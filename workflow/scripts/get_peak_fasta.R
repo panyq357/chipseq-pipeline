@@ -1,13 +1,22 @@
 library(Biostrings)
 library(GenomicRanges)
 
+
 config <- list(
     ref_genome = snakemake@input$ref_genome,
     peak_file = snakemake@input$peak_file,
-    top = snakemake@params$top,
-    radius = snakemake@params$radius,
+
+    ref_point = snakemake@params[[1]]$ref_point,
+    rank_by = snakemake@params[[1]]$rank_by,
+    top = snakemake@params[[1]]$top,
+    radius = snakemake@params[[1]]$radius,
+    p_th = snakemake@params[[1]]$p_th,
+    q_th = snakemake@params[[1]]$q_th,
+    fold_range = snakemake@params[[1]]$fold_range,
+
     out_fasta = snakemake@output$out_fasta
 )
+
 
 main <- function() {
 
@@ -15,35 +24,45 @@ main <- function() {
 
     peak_gr <- read_macs_xls(config$peak_file)
 
-    target_dna <- extract_fasta_from_summit(peak_gr, genome=genome, top_n=config$top, radius=config$radius)
-
-    writeXStringSet(target_dna, config$out_fasta)
-}
-
-extract_fasta_from_summit <- function(peak_gr, genome, top_n=500, radius=50) {
-
-    rank_by_pvalue <- order(mcols(peak_gr)[["-log10(pvalue)"]], decreasing=T)
-
-    top_gr <- peak_gr[rank_by_pvalue,][1:top_n, ]
-
-    top_summit_gr <- GRanges(
-        seqnames=seqnames(top_gr),
-        ranges=IRanges(start=top_gr$abs_summit, end=top_gr$abs_summit),
-        name=top_gr$name
+    peak_gr <- subset(
+        peak_gr,
+        `-log10(pvalue)` > -log10(config$p_th) &
+            `-log10(qvalue)` > -log10(config$q_th) &
+            fold_enrichment > config$fold_range[[1]] &
+            fold_enrichment < config$fold_range[[2]]
     )
-    target_gr <- flank(top_summit_gr, radius, both=T)
+
+    target_gr <- peak_gr[order(mcols(peak_gr)[[config$rank_by]], decreasing=T),]
+    target_gr <- target_gr[1:ifelse(config$top > length(target_gr), length(target_gr), config$top),]
+
+    if (config$ref_point == "center") {
+
+        ranges(target_gr) <- IRanges(
+            start = (end(target_gr) + start(target_gr)) / 2 - config$radius,
+            end = (end(target_gr) + start(target_gr)) / 2 + config$radius
+        )
+
+    } else if (config$ref_point == "summit") {
+        
+        ranges(target_gr) <- IRanges(
+            start = target_gr$abs_summit - config$radius,
+            end = target_gr$abs_summit + config$radius
+        )
+    }
 
     target_dna <- genome[target_gr]
     names(target_dna) <- sprintf("%s|%s:%s-%s", target_gr$name, seqnames(target_gr), start(target_gr), end(target_gr))
 
-    return(target_dna)
+    writeXStringSet(target_dna, config$out_fasta)
 }
+
 
 read_macs_xls <- function (macs_xls_path) {
     df <- read.table(macs_xls_path, header=T, check.names=F)
     gr <- GenomicRanges::makeGRangesFromDataFrame(df, keep.extra.columns=TRUE)
     return(gr)
 }
+
 
 main()
 

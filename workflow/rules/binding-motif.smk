@@ -1,7 +1,9 @@
 configfile: "config/binding-motif-config.yaml"
 
+
 def get_peak(peak):
     return f"results/macs_callpeak/{peak}/{peak}_peaks.xls"
+
 
 rule get_peak_fasta:
     input:
@@ -10,8 +12,7 @@ rule get_peak_fasta:
     output:
         out_fasta = "results/get_peak_fasta/{job}.fasta"
     params:
-        top = lambda w: config["binding-motif-jobs"][w.job]["top"],
-        radius = lambda w: config["binding-motif-jobs"][w.job]["radius"]
+        lambda w: config["binding-motif-jobs"][w.job]["params"]
     script:
         "../scripts/get_peak_fasta.R"
 
