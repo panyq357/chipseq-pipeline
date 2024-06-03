@@ -12,9 +12,10 @@ rule macs_with_input:
         ip_bam = lambda w: get_bam(config["peaks"][w.peak]["ip"]),
         input_bam = lambda w: get_bam(config["peaks"][w.peak]["input"])
     output:
+        outdir = directory("results/macs_callpeak/{peak}"),
         peak = "results/macs_callpeak/{peak}/{peak}_peaks.xls"
     params:
-        bam_format = config["macs_format"],
+        bam_format = lambda w: config["peaks"][w.peak]["bam_format"] if "bam_format" in config["peaks"][w.peak] else config["macs_default_config"]["bam_format"],
         mappable_genome_size = config["mappable_genome_size"],
         name = "{peak}",
         peak_type = lambda w: config["peaks"][w.peak]["type"]
@@ -30,7 +31,7 @@ rule macs_with_input:
                         -f {params.bam_format} \
                         -g {params.mappable_genome_size} \
                         -n {params.name} \
-                        --outdir {output.out_dir} >> {log} 2>&1''')
+                        --outdir {output.outdir} >> {log} 2>&1''')
         elif params.peak_type == "broad":
             shell('''macs2 callpeak \
                         -t {input.ip_bam} \
@@ -39,16 +40,17 @@ rule macs_with_input:
                         -g {params.mappable_genome_size} \
                         -n {params.name} \
                         --broad \
-                        --outdir {output.out_dir} >> {log} 2>&1''')
+                        --outdir {output.outdir} >> {log} 2>&1''')
 
 
 rule macs_no_input:
     input:
         ip_bam = lambda w: get_bam(config["peaks"][w.peak]["ip"])
     output:
+        outdir = directory("results/macs_callpeak/{peak}"),
         peak = "results/macs_callpeak/{peak}/{peak}_peaks.xls"
     params:
-        bam_format = config["macs_format"],
+        bam_format = lambda w: config["peaks"][w.peak]["bam_format"] if "bam_format" in config["peaks"][w.peak] else config["macs_default_config"]["bam_format"],
         mappable_genome_size = config["mappable_genome_size"],
         name = "{peak}",
         peak_type = lambda w: config["peaks"][w.peak]["type"]
@@ -63,7 +65,7 @@ rule macs_no_input:
                         -f {params.bam_format} \
                         -g {params.mappable_genome_size} \
                         -n {params.name} \
-                        --outdir {output.out_dir} >> {log} 2>&1''')
+                        --outdir {output.outdir} >> {log} 2>&1''')
         elif params.peak_type == "broad":
             shell('''macs2 callpeak \
                         -t {input.ip_bam} \
@@ -71,5 +73,5 @@ rule macs_no_input:
                         -g {params.mappable_genome_size} \
                         -n {params.name} \
                         --broad \
-                        --outdir {output.out_dir} >> {log} 2>&1''')
+                        --outdir {output.outdir} >> {log} 2>&1''')
 

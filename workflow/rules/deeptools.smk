@@ -108,28 +108,22 @@ rule tss_to_tes_profile:
         '''
 
 
-def get_bw(sample):
-    return f"results/bamCoverage/{sample}.bw"
-
-
 def get_peak_bw(peak):
+
+    def get_sample_bw(sample):
+        return f"results/bamCoverage/{sample}.bw"
+
     ip_sample = config["peaks"][peak]["ip"]
     if "input" in config["peaks"][peak]:
         input_sample = config["peaks"][peak]["input"]
-        return [get_bw(ip_sample), get_bw(input_sample)]
+        return [get_sample_bw(ip_sample), get_sample_bw(input_sample)]
     else:
-        return get_bw(ip_sample)
-
-
-def get_peak_bed(peak):
-    peak_type = config["peaks"][peak]["type"]
-    return f"results/macs_callpeak/{peak}/{peak}_peaks.{peak_type}Peak"
+        return get_sample_bw(ip_sample)
 
 
 rule peak_heatmap:
     input:
-        bw = lambda w: get_peak_bw(w.peak),
-        peak = "results/macs_callpeak/{peak}/{peak}_peaks.xls"
+        bw = lambda w: get_peak_bw(w.peak)
     output:
         mat = temp("results/peak_heatmap/{peak}.matrix.mat.gz"),
         png = "results/peak_heatmap/{peak}.heatmap.png"
@@ -157,15 +151,29 @@ rule peak_heatmap:
         '''
 
 
-rule FRiP:
+def get_peak_bed(peak):
+    return f"results/macs_callpeak/{peak}/{peak}_peaks." + config["peaks"][peak]["type"] + "Peak"
+
+
+rule FRiP_stat:
     input:
-        bed = [get_peak_bed(peak) for peak in config["peaks"]],
-        bam = [get_bam(config["peaks"][peak]["ip"]) for peak in config["peaks"]]
-    output:
-        fc_stat = "results/FRiP.fc_stat.csv",
-        plot = "results/FRiP.png"
+        peak = "results/macs_callpeak/{peak}/{peak}_peaks.xls",
+        bam = lambda w: get_bam(config["peaks"][w.peak]["ip"])
     params:
-        peak_names = config["peaks"].keys()
+        peak_bed = lambda w: get_peak_bed(w.peak)
+    output:
+        fc = "results/FRiP/{peak}.fc.rds"
+    threads:
+        20
     script:
-        "../scripts/FRiP.R"
+        "../scripts/FRiP_stat.R"
+
+
+rule FRiP_plot:
+    input:
+        fc_list = expand("results/FRiP/{peak}.fc.rds", peak=config["peaks"])
+    output:
+        plot = "results/FRiP.pdf"
+    script:
+        "../scripts/FRiP_plot.R"
 

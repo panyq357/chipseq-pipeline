@@ -3,8 +3,13 @@ library(clusterProfiler)
 
 config <- list(
     peak_to_gene = snakemake@input$peak_to_gene,
-    xlsx = snakemake@output$xlsx,
-    rds = snakemake@output$rds,
+    oryzabase_xlsx = snakemake@input$oryzabase_xlsx,
+    rap_anno = snakemake@input$rap_anno,
+
+    enricher_xlsx = snakemake@output$enricher_xlsx,
+    enricher_rds = snakemake@output$enricher_rds,
+
+    oryzabase_sheet = snakemake@params$oryzabase_sheet,
     fdr_th = as.numeric(snakemake@params$fdr_th),
     p_th = as.numeric(snakemake@params$p_th),
     abs_l2fc_th = log2(as.numeric(snakemake@params$fc_th))
@@ -18,88 +23,76 @@ main <- function(){
     pass_th <- with(peak, FDR < config$fdr_th & `p-value` < config$p_th)
     peak_list <- list(
         All  = subset(peak, pass_th & abs(Fold) >  config$abs_l2fc_th),
-        Up   = subset(peak, pass_th & Fold      >  config$abs_l2fc_th),
-        Down = subset(peak, pass_th & Fold      < -config$abs_l2fc_th)
+        Up   = subset(peak, pass_th &     Fold  >  config$abs_l2fc_th),
+        Down = subset(peak, pass_th &     Fold  < -config$abs_l2fc_th)
     )
 
     # Genes overlapped with diff peaks.
-    gene_list <- lapply(peak_list, get_gene_id)
-    enrich_go_res_list <- lapply(gene_list, at_enrich_go)
+    gene_list <- lapply(peak_list, peak_to_gene)
+    enricher_res_list <- lapply(gene_list, oryzabase_enricher, universe=NULL, oryzabase_xlsx=config$oryzabase_xlsx, sheet_list=config$oryzabase_sheet)
 
-    names(enrich_go_res_list$All) <- sprintf("Enrich.GO.%s", names(enrich_go_res_list$All))
-    names(enrich_go_res_list$Up) <- sprintf("Enrich.GO.%s", names(enrich_go_res_list$Up))
-    names(enrich_go_res_list$Down) <- sprintf("Enrich.GO.%s", names(enrich_go_res_list$Down))
+    enricher_res_list <- unlist(enricher_res_list, use.names=TRUE)
 
-    enrich_go_res_list <- unlist(enrich_go_res_list, use.names=TRUE)
-
-    saveRDS(enrich_go_res_list, config$rds)
+    saveRDS(enricher_res_list, config$enricher_rds)
 
     writexl::write_xlsx(
         c(
-            lapply(enrich_go_res_list, as.data.frame),
+            lapply(enricher_res_list, as.data.frame),
             setNames(peak_list, sprintf("Peak.%s", names(peak_list)))
         ),
-        config$xlsx
+        config$enricher_xlsx
     )
 
 }
 
 
-get_gene_id <- function(peak, regex="AT[12345CM]G[0-9]{5}") {
-    gene <- unlist(peak) |>
-        stringr::str_extract_all(regex) |>
-        unlist() |> unique() |> na.omit()
-    return(gene)
-}
-
-at_enrich_go <- function(gene, universe=NULL) {
-    ego <- list()
-    for (ont in c("BP", "MF", "CC")) {
-        ego[[ont]] <- clusterProfiler::enrichGO(
-            gene = gene,
-            universe = universe,
-            OrgDb = org.At.tair.db::org.At.tair.db,
-            keyType = 'TAIR',
-            ont = ont,
-            pvalueCutoff = 1,
-            qvalueCutoff = 1
-        )
-    }
-    return(ego)
-}
-
-at_enrich_kegg <- function(gene, universe=NULL) {
-    kk <- clusterProfiler::enrichKEGG(
+df_enricher <- function(gene, universe, onto_df, gene_col, term_col, name_col) {
+    res <- clusterProfiler::enricher(
         gene = gene,
         universe = universe,
-        organism = 'ath',
+        TERM2GENE = onto_df[c(term_col, gene_col)],
+        TERM2NAME = onto_df[c(term_col, name_col)],
         pvalueCutoff = 1,
         qvalueCutoff = 1
     )
-    return(kk)
+    return(res)
 }
 
-at_gse_go <- function(l2fc) {
-    gsego <- list()
-    for (ont in c("BP", "MF", "CC")) {
-        gsego[[ont]] <- clusterProfiler::gseGO(
-            geneList = l2fc,
-            OrgDb = org.At.tair.db::org.At.tair.db,
-            keyType = 'TAIR',
-            ont = ont,
-            pvalueCutoff = 1
-        )
-    }
-    return(gsego)
-}
-
-at_gse_kegg <- function(l2fc) {
-    gsekk <- clusterProfiler::gseKEGG(
-        geneList = l2fc,
-        organism = 'ath',
-        pvalueCutoff = 1
+df_GSEA <- function(ranked_gene_list, onto_df, gene_col, term_col, name_col) {
+    res <- clusterProfiler::GSEA(
+        geneList = ranked_gene_list,
+        TERM2GENE = onto_df[c(term_col, gene_col)],
+        TERM2NAME = onto_df[c(term_col, name_col)],
+        pvalueCutoff = 1,
     )
-    return(gsekk)
+    return(res)
+}
+
+
+oryzabase_enricher <- function(gene, universe, oryzabase_xlsx, sheet_list) {
+    res_list <- list()
+    for (sheet in sheet_list) {
+        onto_df <- readxl::read_excel(oryzabase_xlsx, sheet=sheet)
+        res <- df_enricher(gene, universe, onto_df, "GeneID", "OntoID", "Description")
+        res_list[[sheet]] <- res
+    }
+    return(res_list)
+}
+
+oryzabase_GSEA <- function(ranked_gene_list, oryzabase_xlsx, sheet_list) {
+    res_list <- list()
+    for (sheet in sheet_list) {
+        onto_df <- readxl::read_excel(oryzabase_xlsx, sheet=sheet)
+        res <- df_GSEA(ranked_gene_list, onto_df, "GeneID", "OntoID", "Description")
+        res_list[[sheet]] <- res
+    }
+    return(res_list)
+}
+
+peak_to_gene <- function(peak) {
+    gene <- peak[12:length(peak)] |>
+        unlist() |> strsplit(",") |> unlist() |> unique() |> na.omit()
+    return(gene)
 }
 
 

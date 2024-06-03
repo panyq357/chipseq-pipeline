@@ -2,3 +2,4 @@
 oryzabase-xlsx: "/home/panyq/Tools/onto-scripts/results/oryzabase-ontologies.xlsx"
 oryzabase-sheet: ["RAP_GO", "RAP_TO", "RAP_PO"]
 rap-anno: "/home/panyq/Tools/index-scripts/os/rap-db/rawdata/IRGSP-1.0_representative_annotation_2023-09-07.tsv.gz"
+

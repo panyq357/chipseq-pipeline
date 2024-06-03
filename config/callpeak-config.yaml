@@ -1,14 +1,90 @@
-macs_format: "BAMPE"
+mappable_genome_size: 370000000  # TAIR10: 120000000, IRGSP-1.0: 370000000
 
-# TAIR10: 120000000, IRGSP-1.0: 370000000
-mappable_genome_size: 370000000
+macs_default_config:
+  bam_format: "BAMPE"
 
 peaks:
-  PC48:
+  WL3-1-with-input:
     type: "narrow"
-    ip: "PC48"
-    input: "GFP"
-  PC54:
+    ip: "WL3-1"
+    input: "WL3-1in"
+  WL3-2-with-input:
     type: "narrow"
-    ip: "PC54"
-    input: "GFP"
+    ip: "WL3-2"
+    input: "WL3-2in"
+  H3K27me3-ZH1-with-input:
+    type: "broad"
+    ip: "ZH1"
+    input: "ZH1-IgG"
+  H3K27me3-ZH2-with-input:
+    type: "broad"
+    ip: "ZH2"
+    input: "ZH2-IgG"
+  H3K27me3-ZH3-with-input:
+    type: "broad"
+    ip: "ZH3"
+    input: "ZH3-IgG"
+  H3K27me3-W1-with-input:
+    type: "broad"
+    ip: "W1"
+    input: "W1-IgG"
+  H3K27me3-W2-with-input:
+    type: "broad"
+    ip: "W2"
+    input: "W2-IgG"
+  H3K27me3-W3-with-input:
+    type: "broad"
+    ip: "W3"
+    input: "W3-IgG"
+  H3K27me3-PO1-with-input:
+    type: "broad"
+    ip: "PO1"
+    input: "PO1-IgG"
+  H3K27me3-PO2-with-input:
+    type: "broad"
+    ip: "PO2"
+    input: "PO2-IgG"
+  H3K27me3-PO3-with-input:
+    type: "broad"
+    ip: "PO3"
+    input: "PO3-IgG"
+  H4ac-H-1-with-input:
+    type: "narrow"
+    ip: "H4H-1"
+    input: "H4INH-1"
+  H4ac-H-2-with-input:
+    type: "narrow"
+    ip: "H4H-2"
+    input: "H4INH-2"
+  H4ac-H-3-with-input:
+    type: "narrow"
+    ip: "H4H-3"
+    input: "H4INH-3"
+  H4ac-W-1-with-input:
+    type: "narrow"
+    ip: "H4W-1"
+    input: "H4INW-1"
+  H4ac-W-2-with-input:
+    type: "narrow"
+    ip: "H4W-2"
+    input: "H4INW-2"
+  H4ac-W-3-with-input:
+    type: "narrow"
+    ip: "H4W-3"
+    input: "H4INW-3"
+  H4ac-Z-1-with-input:
+    type: "narrow"
+    ip: "H4Z-1"
+    input: "H4INZ-1"
+  H4ac-Z-2-with-input:
+    type: "narrow"
+    ip: "H4Z-2"
+    input: "H4INZ-2"
+  H4ac-Z-3-with-input:
+    type: "narrow"
+    ip: "H4Z-3"
+    input: "H4INZ-3"
+  DAP:
+    type: "narrow"
+    ip: "DAP"
+    input: "DAP-control"

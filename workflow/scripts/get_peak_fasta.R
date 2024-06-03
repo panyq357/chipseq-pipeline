@@ -4,7 +4,7 @@ library(GenomicRanges)
 
 config <- list(
     ref_genome = snakemake@input$ref_genome,
-    peak_file = snakemake@input$peak_file,
+    peak_xls = snakemake@input$peak_xls,
 
     ref_point = snakemake@params[[1]]$ref_point,
     rank_by = snakemake@params[[1]]$rank_by,
@@ -22,7 +22,7 @@ main <- function() {
 
     genome <- readDNAStringSet(config$ref_genome)
 
-    peak_gr <- read_macs_xls(config$peak_file)
+    peak_gr <- read_macs_xls(config$peak_xls)
 
     peak_gr <- subset(
         peak_gr,

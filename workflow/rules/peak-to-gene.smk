@@ -17,7 +17,7 @@ rule peak_to_gene_diffbind:
 rule peak_to_gene_macs:
     input:
         gtf = config["peak-to-gene-gtf"],
-        peak = "results/macs_callpeak/{peak}/{peak}_peaks.xls"
+        peak = lambda w: get_peak_xls(w.peak)
     output:
         peak_to_gene = "results/peak_anno/{peak}/{peak}.peak_to_gene_macs.csv",
         feature_bar = "results/peak_anno/{peak}/{peak}.feature_bar.svg"
