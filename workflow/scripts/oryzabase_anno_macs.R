@@ -1,14 +1,16 @@
 library(clusterProfiler)
 
 config <- list(
-    peak_to_gene = snakemake@input$peak_to_gene,
+    gene_to_peak = snakemake@input$gene_to_peak,
     oryzabase_xlsx = snakemake@input$oryzabase_xlsx,
     rap_anno = snakemake@input$rap_anno,
 
-    enricher_xlsx = snakemake@output$enricher_xlsx,
+    anno_xlsx = snakemake@output$anno_xlsx,
 
     oryzabase_sheet = snakemake@params$oryzabase_sheet,
-    fold_enrichment_range = snakemake@params$fold_enrichment_range
+    by = snakemake@params$by,
+
+    min_signal = snakemake@wildcards$signal
 )
 
 
@@ -17,17 +19,21 @@ main <- function(){
     # All genes have annotation as universe.
     universe <- NULL
 
-    peak <- read.csv(config$peak_to_gene, check.names=F)
+    gene_to_peak <- read.csv(config$gene_to_peak, check.names=F)
+    gene_to_peak <- gene_to_peak[c("gene_id", sprintf("%s.max_signal", config$by))]
+    signal <- setNames(gene_to_peak[[2]], gene_to_peak[[1]]) |> sort(decreasing=T)
+
+    gene <- names(signal[signal > config$min_signal])
 
     # Genes overlapped with diff peaks.
-    gene <- peak_to_gene(peak)
     enricher_res_list <- oryzabase_enricher(gene, universe, config$oryzabase_xlsx, config$oryzabase_sheet)
 
     rap_anno <- readr::read_tsv(config$rap_anno)
-    gene_used <- subset(rap_anno, Locus_ID %in% gene, select = c("Locus_ID", "Oryzabase Gene Symbol Synonym(s)", "Oryzabase Gene Name Synonym(s)", "Description")) 
-    gene_used <- gene_used[!duplicated(gene_used$Locus_ID), ]
 
-    writexl::write_xlsx(c(lapply(enricher_res_list, as.data.frame), list(GeneUsed=gene_used)), config$enricher_xlsx)
+    gene_used <- data.frame(GeneID = gene, Signal = signal[gene])
+    gene_used[c("Symbol", "Description")] <- rap_anno[match(gene_used$GeneID, rap_anno$Locus_ID), c("Oryzabase Gene Symbol Synonym(s)", "Description")] 
+
+    writexl::write_xlsx(c(lapply(enricher_res_list, as.data.frame), list(GeneUsed=gene_used)), config$anno_xlsx)
 
 }
 
@@ -73,12 +79,6 @@ oryzabase_GSEA <- function(ranked_gene_list, oryzabase_xlsx, sheet_list) {
         res_list[[sheet]] <- res
     }
     return(res_list)
-}
-
-peak_to_gene <- function(peak) {
-    gene <- peak[13:length(peak)] |>
-        unlist() |> strsplit(",") |> unlist() |> unique() |> na.omit()
-    return(gene)
 }
 
 main()

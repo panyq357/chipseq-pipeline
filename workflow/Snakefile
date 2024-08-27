@@ -10,8 +10,7 @@ include: "rules/bwa_mapping.smk"
 include: "rules/callpeak.smk"
 include: "rules/deeptools.smk"
 include: "rules/binding_motif.smk"
-include: "rules/peak_to_gene.smk"
-include: "rules/peak_anno_os.smk"
+include: "rules/peak_anno.smk"
 
 
 rule all:
@@ -26,12 +25,10 @@ rule all:
         # deeptools
         expand("results/deeptools_heatmaps/{heatmap}.heatmap.pdf", heatmap=config["deeptools_heatmaps"]),
 
-        # binding-motif
+        # binding_motif
         expand("results/meme/{job}", job=config["binding-motif-jobs"]),
 
-        # peak-to-gene
-        [f"results/peak_anno/{peak_type}/{peak}/{peak}.peak_to_gene_macs.csv" for peak_type in config["peaks"] for peak in config["peaks"][peak_type]],
-
-        # peak-anno-os
-        [f"results/peak_anno/{peak_type}/{peak}/{peak}.oryzabase_anno_macs.xlsx" for peak_type in config["peaks"] for peak in config["peaks"][peak_type]],
+        # peak_anno
+        [f"results/peak_anno/{peak_type}/{peak}/{peak}.min-signal-0.oryzabase_anno.xlsx" for peak_type in config["peaks"] for peak in config["peaks"][peak_type]],
+        [f"results/peak_anno/{peak_type}/{peak}/{peak}.feature_bar.svg" for peak_type in config["peaks"] for peak in config["peaks"][peak_type]]
 

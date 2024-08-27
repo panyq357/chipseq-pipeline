@@ -12,7 +12,8 @@ config <- list(
     peak = snakemake@input$peak,
     peak_to_gene = snakemake@output$peak_to_gene,
     feature_bar = snakemake@output$feature_bar,
-    anno = snakemake@params$anno
+    by = snakemake@params$by,
+    col_prefix = snakemake@params$col_prefix
 )
 
 main <- function(){
@@ -38,7 +39,9 @@ main <- function(){
 
     peak_gr <- read_peak(config$peak)
         
-    feature_overlap_matrix <- get_feature_overlap_matrix(peak_gr, feature_grl, anno=config$anno)
+    feature_overlap_matrix <- get_feature_overlap_matrix(peak_gr, feature_grl, anno=config$by)
+
+    colnames(feature_overlap_matrix) <- paste(config$col_prefix, colnames(feature_overlap_matrix), sep="")
 
     svg(config$feature_bar, width=6, height=3)
         print(plot_feature_bar(feature_overlap_matrix, config$feature_bar))
