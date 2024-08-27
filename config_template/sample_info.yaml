@@ -1,0 +1,45 @@
+# Raw FASTQ paths for each sample.
+# For pair-ended data, specify them with R1 and R2.
+# For single-ended data, specify only R1, with R2 key removed.
+
+samples:
+  control:
+    R1: "path/to/control.R1.fq.gz"
+    R2: "path/to/control.R2.fq.gz"
+  treatment1:
+    R1: "path/to/treatment1.single-ended.fq.gz"
+  treatment2:
+    R1:
+      - "path/to/treatment2.R1.part1.fq.gz"
+      - "path/to/treatment2.R1.part2.fq.gz"
+    R2:
+      - "path/to/treatment2.R2.part1.fq.gz"
+      - "path/to/treatment2.R2.part2.fq.gz"
+
+
+# BAM path for MACS callpeak.
+#
+# If no control, just omit it.
+
+peaks:
+  narrow:
+    peak1:
+      treatment: "results/bwa_mapping/treatment1.bam"
+      control: "results/bwa_mapping/control.bam"
+  broad:
+    peak2:
+      treatment: "results/bwa_mapping/treatment2.bam"
+      control: "results/bwa_mapping/control.bam"
+
+
+# BAM path for BigWig files.
+#
+# For bamCoverage, supply only b1, for bamCompare, supply both b1 and b2.
+
+bws:
+  treatment1:
+    b1: "results/bwa_mapping/treatment1.bam"
+  treatment2:
+    b1: "results/bwa_mapping/treatment2.bam"
+    b2: "results/bwa_mapping/control.bam"
+

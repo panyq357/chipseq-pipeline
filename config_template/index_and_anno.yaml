@@ -1,0 +1,15 @@
+
+bwa_index_prefix: "/home/panyq/Tools/index-scripts/os/rap-db/results/genome/os.rap-db.genome.fa"
+
+gtf: "/home/panyq/Tools/index-scripts/os/rap-db/results/gtf/os.rap-db.make.gtf"
+
+rap-anno: "/home/panyq/Tools/index-scripts/os/rap-db/rawdata/IRGSP-1.0_representative_annotation_2023-09-07.tsv.gz"
+
+oryzabase:
+  xlsx: "/home/panyq/Tools/onto-scripts/results/oryzabase-ontologies.xlsx"
+  sheet: ["RAP_GO", "RAP_TO", "RAP_PO"]
+
+kegg:
+  pathway_to_gene: "/home/panyq/Tools/index-scripts/os/kegg/results/osa_pathway/pathway_to_rapdb.tsv"
+  pathway_to_description: "/home/panyq/Tools/index-scripts/os/kegg/results/osa_pathway/pathway_to_description.tsv"
+

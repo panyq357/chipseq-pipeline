@@ -1,0 +1,37 @@
+configfile: "config/sample_info.yaml"
+configfile: "config/index_and_anno.yaml"
+configfile: "config/software_setting.yaml"
+configfile: "config/deeptools.yaml"
+configfile: "config/binding_motif.yaml"
+
+include: "rules/concat_fastq.smk"
+include: "rules/fastp.smk"
+include: "rules/bwa_mapping.smk"
+include: "rules/callpeak.smk"
+include: "rules/deeptools.smk"
+include: "rules/binding_motif.smk"
+include: "rules/peak_to_gene.smk"
+include: "rules/peak_anno_os.smk"
+
+
+rule all:
+    input:
+        # reads2bwa
+        expand("results/bwa_mapping/{sample}.flagstats.txt", sample=config["samples"]),
+
+        # callpeak
+        [f"results/macs_callpeak/{peak_type}/{peak}_peaks.{peak_type}Peak" for peak_type in config["peaks"] for peak in config["peaks"][peak_type]],
+        "results/FRiP.pdf",
+
+        # deeptools
+        expand("results/deeptools_heatmaps/{heatmap}.heatmap.pdf", heatmap=config["deeptools_heatmaps"]),
+
+        # binding-motif
+        expand("results/meme/{job}", job=config["binding-motif-jobs"]),
+
+        # peak-to-gene
+        [f"results/peak_anno/{peak_type}/{peak}/{peak}.peak_to_gene_macs.csv" for peak_type in config["peaks"] for peak in config["peaks"][peak_type]],
+
+        # peak-anno-os
+        [f"results/peak_anno/{peak_type}/{peak}/{peak}.oryzabase_anno_macs.xlsx" for peak_type in config["peaks"] for peak in config["peaks"][peak_type]],
+

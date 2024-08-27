@@ -1,0 +1,4 @@
+mappable_genome_size: 370000000  # TAIR10: 120000000, IRGSP-1.0: 370000000
+
+macs_default_config:
+  bam_format: "BAMPE"

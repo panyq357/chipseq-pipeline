@@ -1,0 +1,30 @@
+
+deeptools_params:
+  tss-to-tes:
+    matrix: "scale-regions --regionBodyLength 5000 --upstream 2000 --downstream 2000"
+    heatmap: ""
+  peak:
+    matrix: "reference-point --referencePoint center --upstream 1000 --downstream 1000"
+    heatmap: ""
+
+
+deeptools_heatmaps:
+  TSS-to-TES:
+    params: "tss-to-tes"
+    bed: "/home/panyq/Tools/index-scripts/os/rap-db/results/custom_bed/transcript.bed"
+    bw:
+      - "results/BigWig/control.bw"
+      - "results/BigWig/sample1.bw"
+      - "results/BigWig/sample2.bw"
+  sample1:
+    params: "peak"
+    bed: "results/macs_callpeak/narrow/sample1_peaks.narrowPeak"
+    bw:
+      - "results/BigWig/control.bw"
+      - "results/BigWig/sample1.bw"
+  sample2:
+    params: "peak"
+    bed: "results/macs_callpeak/narrow/sample2_peaks.narrowPeak"
+    bw:
+      - "results/BigWig/control.bw"
+      - "results/BigWig/sample2.bw"

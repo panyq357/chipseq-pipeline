@@ -1,0 +1,19 @@
+binding-motif-jobs:
+  sample1-top-1000:
+    peak_xls: "results/macs_callpeak/narrow/sample1_peaks.xls"
+    params:
+      ref_point: "summit"           # "summit" (peak summit) or "center" (center of peak).
+      p_th: 0.001
+      q_th: 0.01
+      rank_by: "-log10(pvalue)"  # column names in MACS xls file.
+      top: 1000                  # after filtering, keep top n peak.
+      radius: 50
+  sample2-top-1000:
+    peak_xls: "results/macs_callpeak/narrow/sample2_peaks.xls"
+    params:
+      ref_point: "summit"
+      p_th: 0.001
+      q_th: 0.01
+      rank_by: "-log10(pvalue)"
+      top: 1000
+      radius: 50
