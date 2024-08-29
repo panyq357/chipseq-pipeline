@@ -15,7 +15,7 @@ include: "rules/peak_anno.smk"
 
 rule all:
     input:
-        # reads2bwa
+        # bwa_mapping
         expand("results/bwa_mapping/{sample}.flagstats.txt", sample=config["samples"]),
 
         # callpeak
@@ -24,6 +24,7 @@ rule all:
 
         # deeptools
         expand("results/deeptools_heatmaps/{heatmap}.heatmap.pdf", heatmap=config["deeptools_heatmaps"]),
+        expand("results/BigWig/{sample}.bw", sample=config["bws"]),
 
         # binding_motif
         expand("results/meme/{job}", job=config["binding-motif-jobs"]),

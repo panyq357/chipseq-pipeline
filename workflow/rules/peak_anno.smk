@@ -22,7 +22,7 @@ Highest peak in promoter/gene body?
 rule gene_to_peak:
     input:
         gtf = config["gtf"],
-        peak = "results/macs_callpeak/{peak_type}/{peak}_peaks.narrowPeak"
+        peak = "results/macs_callpeak/{peak_type}/{peak}_peaks.{peak_type}Peak"
     output:
         gene_to_peak = "results/peak_anno/{peak_type}/{peak}/{peak}.gene_to_peak.csv"
     script:

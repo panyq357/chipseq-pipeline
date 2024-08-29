@@ -20,6 +20,8 @@ samples:
 # BAM path for MACS callpeak.
 #
 # If no control, just omit it.
+peak_params:
+  faire: "--nomodel --shift -100 --extsize 200"
 
 peaks:
   narrow:
@@ -30,6 +32,7 @@ peaks:
     peak2:
       treatment: "results/bwa_mapping/treatment2.bam"
       control: "results/bwa_mapping/control.bam"
+      extra_params: "faire"
 
 
 # BAM path for BigWig files.
