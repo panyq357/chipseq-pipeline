@@ -15,7 +15,8 @@ rule bwa_mapping_pe:
         bai = "results/bwa_mapping/{sample_id}.bam.bai"
     params:
         bwa_index_prefix = config['bwa_index_prefix'],
-        samtools_sort_threads = 4  # Less threads, less memory.
+        sort_threads = config["samtools"]["sort_threads"],
+        sort_mem_per_thread = config["samtools"]["sort_mem_per_thread"]
     log:
         "logs/bwa_mapping/{sample_id}.log"
     threads:
@@ -27,7 +28,7 @@ rule bwa_mapping_pe:
         bwa mem -M -t {threads} -R '@RG\\tID:{wildcards.sample_id}\\tSM:{wildcards.sample_id}' \
             {params.bwa_index_prefix} {input.r1_fastp} {input.r2_fastp} 2>> {log} \
         | samtools fixmate -u -m - - 2>> {log} \
-        | samtools sort -u -@{params.samtools_sort_threads} 2>> {log} \
+        | samtools sort -u -@{params.sort_threads} -m{params.sort_mem_per_thread} 2>> {log} \
         | samtools markdup -u -@{threads} - - 2>> {log} \
         | samtools view -b -h -@{threads} -o {output.bam} 2>> {log}
         samtools index {output.bam} 2>> {log}
@@ -44,7 +45,9 @@ rule bwa_mapping_se:
         bam = "results/bwa_mapping/{sample_id}.bam",
         bai = "results/bwa_mapping/{sample_id}.bam.bai"
     params:
-        bwa_index_prefix = config['bwa_index_prefix']
+        bwa_index_prefix = config['bwa_index_prefix'],
+        sort_threads = config["samtools"]["sort_threads"],
+        sort_mem_per_thread = config["samtools"]["sort_mem_per_thread"]
     log:
         "logs/bwa_mapping/{sample_id}.log"
     threads:
@@ -56,7 +59,7 @@ rule bwa_mapping_se:
         bwa mem -M -t {threads} -R '@RG\\tID:{wildcards.sample_id}\\tSM:{wildcards.sample_id}' \
             {params.bwa_index_prefix} {input.r1_fastp} 2>> {log} \
         | samtools fixmate -u -m - - 2>> {log} \
-        | samtools sort -u -@{threads} 2>> {log} \
+        | samtools sort -u -@{params.sort_threads} -m{params.sort_mem_per_thread} 2>> {log} \
         | samtools markdup -u -@{threads} - - 2>> {log} \
         | samtools view -b -h -@{threads} -o {output.bam} 2>> {log}
         samtools index {output.bam} 2>> {log}
@@ -77,4 +80,5 @@ rule flagstats:
         '''
         samtools flagstats {input.bam} > {output.txt} 2> {log}
         '''
+
 
