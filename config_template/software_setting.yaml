@@ -6,4 +6,5 @@ macs_default_config:
 samtools:
   sort_threads: 20
   sort_mem_per_thread: "1G"
+  filter_args: "-F 1284"  # 1284 stands for "unmapped", "not primary mapped" and "is PCR or optical duplicate"
 

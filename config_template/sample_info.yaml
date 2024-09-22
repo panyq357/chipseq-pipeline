@@ -46,3 +46,10 @@ bws:
     b1: "results/bwa_mapping/treatment2.bam"
     b2: "results/bwa_mapping/control.bam"
 
+
+# BAM path for samtools merge.
+bam_merge:
+  all_treatment_after_filter:
+    bams:
+      - "results/bam_filter/treatment1.bam"
+      - "results/bam_filter/treatment2.bam"
