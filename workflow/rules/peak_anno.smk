@@ -5,7 +5,7 @@ Peaks overlap with what features?
 rule peak_to_gene:
     input:
         gtf = config["gtf"],
-        peak = "results/macs_callpeak/{peak_type}/{peak}_peaks.xls"
+        peak = "results/callpeak/macs/{peak_type}/{peak}_peaks.xls"
     output:
         peak_to_gene = "results/peak_anno/{peak_type}/{peak}/{peak}.peak_to_gene.csv",
         feature_bar = "results/peak_anno/{peak_type}/{peak}/{peak}.feature_bar.svg"
@@ -22,7 +22,7 @@ Highest peak in promoter/gene body?
 rule gene_to_peak:
     input:
         gtf = config["gtf"],
-        peak = "results/macs_callpeak/{peak_type}/{peak}_peaks.{peak_type}Peak"
+        peak = "results/callpeak/macs/{peak_type}/{peak}_peaks.{peak_type}Peak"
     output:
         gene_to_peak = "results/peak_anno/{peak_type}/{peak}/{peak}.gene_to_peak.csv"
     script:

@@ -1,21 +1,23 @@
 
 
-ruleorder: bamCompare > bamCoverage
+ruleorder: bamCompare > bamCoverage > bigwigAverage
 
 
 rule bamCoverage:
     input:
-        bam = lambda w: config["bws"][w.sample]["b1"]
+        bam = lambda w: config["bws"][w.sample]["b1"],
+        bai = lambda w: config["bws"][w.sample]["b1"] + ".bai"
     output:
-        bw = "results/BigWig/{sample}.bw"
+        bw = "results/deeptools/bw/{sample}.bw"
     params:
-        mappable_genome_size = config["mappable_genome_size"]
+        mappable_genome_size = config["mappable_genome_size"],
+        bamCoverage_args = config["deeptools"]["bamCoverage"]
     threads:
         2
     resources:
         io = 100
     log:
-        "logs/BigWig/{sample}.log"
+        "logs/deeptools/bw/{sample}.log"
     shell:
         '''
         bamCoverage \
@@ -23,11 +25,7 @@ rule bamCoverage:
             --bam {input.bam} \
             --outFileName {output.bw} \
             --effectiveGenomeSize {params.mappable_genome_size} \
-            --binSize 20 \
-            --normalizeUsing BPM \
-            --smoothLength 60 \
-            --extendReads \
-            --centerReads \
+            {params.bamCoverage_args} \
             >> {log} 2>&1
         '''
 
@@ -35,17 +33,20 @@ rule bamCoverage:
 rule bamCompare:
     input:
         b1 = lambda w: config["bws"][w.sample]["b1"],
-        b2 = lambda w: config["bws"][w.sample]["b2"]
+        b2 = lambda w: config["bws"][w.sample]["b2"],
+        b1_bai = lambda w: config["bws"][w.sample]["b1"] + ".bai",
+        b2_bai = lambda w: config["bws"][w.sample]["b2"] + ".bai"
     output:
-        bw = "results/BigWig/{sample}.bw"
+        bw = "results/deeptools/bw/{sample}.bw"
     params:
-        mappable_genome_size = config["mappable_genome_size"]
+        mappable_genome_size = config["mappable_genome_size"],
+        bamCompare_args = config["deeptools"]["bamCompare"]
     threads:
         2
     resources:
         io = 100
     log:
-        "logs/BigWig/{sample}.log"
+        "logs/deeptools/bw/{sample}.log"
     shell:
         '''
         bamCompare \
@@ -53,13 +54,25 @@ rule bamCompare:
             --bamfile1 {input.b1} \
             --bamfile2 {input.b2} \
             --outFileName {output.bw} \
-            --scaleFactorsMethod None \
-            --binSize 20 \
-            --normalizeUsing BPM \
-            --smoothLength 60 \
-            --extendReads \
-            --centerReads \
-            --outFileName {output} >> {log} 2>&1
+            --effectiveGenomeSize {params.mappable_genome_size} \
+            {params.bamCompare_args} 2> {log}
+        '''
+
+rule bigwigAverage:
+    input:
+        bam_list = lambda w: config["bws"][w.sample]["average"],
+        bai_list = lambda w: [x + ".bai" for x in config["bws"][w.sample]["average"]]
+    output:
+        bw = "results/deeptools/bw/{sample}.bw"
+    threads:
+        2
+    resources:
+        io = 100
+    log:
+        "logs/deeptools/bw/{sample}.log"
+    shell:
+        '''
+        bigwigAverage -b {input.bam_list} -o {output.bw} 2> {log}
         '''
 
 
@@ -68,32 +81,33 @@ rule computeMatrix:
         bw = lambda w: config["deeptools_heatmaps"][w.heatmap]["bw"],
         bed = lambda w: config["deeptools_heatmaps"][w.heatmap]["bed"]
     output:
-        temp("results/deeptools_heatmaps/{heatmap}.mat.gz")
+        temp("results/deeptools/heatmaps/{heatmap}.mat.gz")
     params:
         lambda w: config["deeptools_params"][config["deeptools_heatmaps"][w.heatmap]["params"]]["matrix"]
     threads:
         20
     log:
-        "logs/deeptools_heatmaps/{heatmap}.computeMatrix.log"
+        "logs/deeptools/heatmaps/{heatmap}.computeMatrix.log"
     shell:
         '''
         computeMatrix {params} \
             --numberOfProcessors {threads} \
             --regionsFileName {input.bed} \
             --scoreFileName {input.bw} \
-            --outFileName {output}
+            --outFileName {output} \
+            > {log}
         '''
 
 
 rule plotHeatmap:
     input:
-        "results/deeptools_heatmaps/{heatmap}.mat.gz"
+        "results/deeptools/heatmaps/{heatmap}.mat.gz"
     output:
-        "results/deeptools_heatmaps/{heatmap}.heatmap.pdf"
+        "results/deeptools/heatmaps/{heatmap}.heatmap.pdf"
     params:
         lambda w: config["deeptools_params"][config["deeptools_heatmaps"][w.heatmap]["params"]]["heatmap"]
+    log:
+        "logs/deeptools/heatmaps/{heatmap}.plotHeatmap.log"
     shell:
-        '''
-        plotHeatmap {params} -m {input} -out {output}
-        '''
+        "plotHeatmap {params} -m {input} -out {output} 2> {log}"
 
