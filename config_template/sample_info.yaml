@@ -26,12 +26,12 @@ peak_params:
 peaks:
   narrow:
     peak1:
-      treatment: "results/bwa_mapping/treatment1.bam"
-      control: "results/bwa_mapping/control.bam"
+      treatment: "results/read_mapping/treatment1.filter.bam"
+      control: "results/read_mapping/control.filter.bam"
   broad:
     peak2:
-      treatment: "results/bwa_mapping/treatment2.bam"
-      control: "results/bwa_mapping/control.bam"
+      treatment: "results/read_mapping/treatment2.filter.bam"
+      control: "results/read_mapping/control.filter.bam"
       extra_params: "faire"
 
 
@@ -41,15 +41,8 @@ peaks:
 
 bws:
   treatment1:
-    b1: "results/bwa_mapping/treatment1.bam"
+    b1: "results/read_mapping/treatment1.filter.bam"
   treatment2:
-    b1: "results/bwa_mapping/treatment2.bam"
-    b2: "results/bwa_mapping/control.bam"
+    b1: "results/read_mapping/treatment2.filter.bam"
+    b2: "results/read_mapping/control.filter.bam"
 
-
-# BAM path for samtools merge.
-bam_merge:
-  all_treatment_after_filter:
-    bams:
-      - "results/bam_filter/treatment1.bam"
-      - "results/bam_filter/treatment2.bam"

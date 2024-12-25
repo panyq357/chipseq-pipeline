@@ -13,18 +13,18 @@ deeptools_heatmaps:
     params: "tss-to-tes"
     bed: "/home/panyq/Tools/index-scripts/os/rap-db/results/custom_bed/transcript.bed"
     bw:
-      - "results/BigWig/control.bw"
-      - "results/BigWig/sample1.bw"
-      - "results/BigWig/sample2.bw"
+      - "results/deeptools/bw/control.bw"
+      - "results/deeptools/bw/sample1.bw"
+      - "results/deeptools/bw/sample2.bw"
   sample1:
     params: "peak"
     bed: "results/macs_callpeak/narrow/sample1_peaks.narrowPeak"
     bw:
-      - "results/BigWig/control.bw"
-      - "results/BigWig/sample1.bw"
+      - "results/deeptools/bw/control.bw"
+      - "results/deeptools/bw/sample1.bw"
   sample2:
     params: "peak"
     bed: "results/macs_callpeak/narrow/sample2_peaks.narrowPeak"
     bw:
-      - "results/BigWig/control.bw"
-      - "results/BigWig/sample2.bw"
+      - "results/deeptools/bw/control.bw"
+      - "results/deeptools/bw/sample2.bw"
