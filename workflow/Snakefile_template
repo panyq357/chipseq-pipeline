@@ -12,6 +12,7 @@ include: "rules/callpeak.macs.smk"
 include: "rules/FRiP.smk"
 include: "rules/deeptools.smk"
 include: "rules/peak_anno.smk"
+include: "rules/meme.smk"
 
 
 rule all:
@@ -29,5 +30,7 @@ rule all:
 
         # peak_anno
         [f"results/peak_anno/{peak_type}/{peak}/{peak}.min-signal-0.oryzabase_anno.xlsx" for peak_type in config["peaks"] for peak in config["peaks"][peak_type]],
-        [f"results/peak_anno/{peak_type}/{peak}/{peak}.feature_bar.svg" for peak_type in config["peaks"] for peak in config["peaks"][peak_type]]
+        [f"results/peak_anno/{peak_type}/{peak}/{peak}.feature_bar.svg" for peak_type in config["peaks"] for peak in config["peaks"][peak_type]],
 
+        # meme
+        # "results/callpeak/macs/narrow/{peak_name}_peaks.sort-by-fold_enrichment-1-500-summit-radius-50.meme-chip"
