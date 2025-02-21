@@ -18,13 +18,13 @@ deeptools_heatmaps:
       - "results/deeptools/bw/sample2.bw"
   sample1:
     params: "peak"
-    bed: "results/macs_callpeak/narrow/sample1_peaks.narrowPeak"
+    bed: "results/callpeak/macs/narrow/sample1_peaks.narrowPeak"
     bw:
       - "results/deeptools/bw/control.bw"
       - "results/deeptools/bw/sample1.bw"
   sample2:
     params: "peak"
-    bed: "results/macs_callpeak/narrow/sample2_peaks.narrowPeak"
+    bed: "results/callpeak/macs/narrow/sample2_peaks.narrowPeak"
     bw:
       - "results/deeptools/bw/control.bw"
       - "results/deeptools/bw/sample2.bw"

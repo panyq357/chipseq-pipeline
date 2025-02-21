@@ -21,7 +21,6 @@ rule meme:
         cmd = "meme-chip -meme-p {threads} --oc {output} {input}"
         for x in input.db:
             cmd = cmd + " -db " + x
-        print(cmd)
         shell(cmd)
 
 

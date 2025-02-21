@@ -11,22 +11,21 @@ config <- list(
 
 main <- function() {
     
-    gtf <- rtracklayer::import(config$gtf)
+    gtf <- rtracklayer::import(snakemake@input$gtf)
+    peak <- rtracklayer::import(snakemake@input$peak)
 
-    gene <- subset(gtf, type == "gene")
-
-    peak <- rtracklayer::import(config$peak)
+    gene <- split(gtf, gtf$gene_id) |> range() |> unlist()
 
     df <- data.frame(
-        gene_id = gene$gene_id,
-        promoter.max_signal = get_max_signal(promoters(gene), peak, mc.cores=config$threads),
-        gene_body.max_signal = get_max_signal(gene, peak, mc.cores=config$threads)
+        gene_id = names(gene),
+        promoter.max_signal = get_max_signal(promoters(gene), peak),
+        gene_body.max_signal = get_max_signal(gene, peak)
     )
 
     write.csv(df, config$gene_to_peak, row.names=F)
 }
 
-get_max_signal <- function(gr, peak, ...) {
+get_max_signal <- function(gr, peak) {
 
     hits <- findOverlaps(gr, peak)
 
