@@ -3,19 +3,17 @@
 Use fastp to filter FASTQ, and generate report html.
 '''
 
-ruleorder: fastp_pe > fastp_se
-
 rule fastp_pe:
     input:
-        r1 = rules.cat_pe.output.r1_cat,
-        r2 = rules.cat_pe.output.r2_cat
+        r1 = "resources/cat/{sample_id}.R1.fastq.gz",
+        r2 = "resources/cat/{sample_id}.R2.fastq.gz",
     output:
-        r1_fastp = "resources/fastp/{sample_id}.fastp.R1.fastq.gz",
-        r2_fastp = "resources/fastp/{sample_id}.fastp.R2.fastq.gz",
-        json = "results/fastp/{sample_id}.json",
-        html = "results/fastp/{sample_id}.html"
+        r1 = temp("resources/fastp/{sample_id}.fastp.R1.fastq.gz"),
+        r2 = temp("resources/fastp/{sample_id}.fastp.R2.fastq.gz"),
+        json = "results/fastp/{sample_id}.fastp.json",
+        html = "results/fastp/{sample_id}.fastp.html"
     log:
-        "logs/fastp/{sample_id}.log"
+        "results/fastp/{sample_id}.fastp.log"
     threads:
         4
     priority:
@@ -28,8 +26,8 @@ rule fastp_pe:
             --thread {threads} \
             --in1 {input.r1} \
             --in2 {input.r2} \
-            --out1 {output.r1_fastp} \
-            --out2 {output.r2_fastp} \
+            --out1 {output.r1} \
+            --out2 {output.r2} \
             --json {output.json} \
             --html {output.html} \
             --report_title {wildcards.sample_id} \
@@ -39,13 +37,13 @@ rule fastp_pe:
 
 rule fastp_se:
     input:
-        r1 = rules.cat_se.output.r1_cat
+        r1 = "resources/cat/{sample_id}.R1.fastq.gz",
     output:
-        r1_fastp = "resources/fastp/{sample_id}.fastp.R1.fastq.gz",
-        json = "results/fastp/{sample_id}.json",
-        html = "results/fastp/{sample_id}.html"
+        se = temp("resources/fastp/{sample_id}.fastp.fastq.gz"),
+        json = "results/fastp/{sample_id}.fastp.json",
+        html = "results/fastp/{sample_id}.fastp.html"
     log:
-        "logs/fastp/{sample_id}.log"
+        "results/fastp/{sample_id}.fastp.log"
     threads:
         4
     priority:
@@ -57,7 +55,7 @@ rule fastp_se:
         fastp \
             --thread {threads} \
             --in1 {input.r1} \
-            --out1 {output.r1_fastp} \
+            --out1 {output.se} \
             --json {output.json} \
             --html {output.html} \
             --report_title {wildcards.sample_id} \
