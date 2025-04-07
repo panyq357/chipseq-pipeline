@@ -1,31 +1,18 @@
-config <- list(
-    peak = snakemake@input$peak,
-    bam = snakemake@input$bam,
-    fc = snakemake@output$fc,
+peak <- rtracklayer::import(snakemake@input$peak)
+
+temp_gtf <- tempfile()
+rtracklayer::export(peak, temp_gtf, format="gtf")
+
+fc <- Rsubread::featureCounts(
+    files=snakemake@input$bam,
+    annot.ext=temp_gtf,
+    isGTFAnnotationFile=TRUE,
+    GTF.featureType="sequence_feature",
+    GTF.attrType="name",
+    isPairedEnd=TRUE,
     nthreads = snakemake@threads
 )
 
-main <- function() {
+file.remove(temp_gtf)
 
-    peak <- rtracklayer::import(config$peak)
-
-    temp_gtf <- tempfile()
-    rtracklayer::export(peak, temp_gtf, format="gtf")
-
-    fc <- Rsubread::featureCounts(
-        files=config$bam,
-        annot.ext=temp_gtf,
-        isGTFAnnotationFile=TRUE,
-        GTF.featureType="sequence_feature",
-        GTF.attrType="name",
-        isPairedEnd=TRUE,
-        nthreads = config$nthreads
-    )
-
-    file.remove(temp_gtf)
-
-    saveRDS(fc, config$fc)
-}
-
-main()
-
+saveRDS(fc, snakemake@output$fc)
