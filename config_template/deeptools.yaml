@@ -1,4 +1,3 @@
-
 deeptools_params:
   tss-to-tes:
     matrix: "scale-regions --regionBodyLength 5000 --upstream 2000 --downstream 2000"
@@ -13,18 +12,18 @@ deeptools_heatmaps:
     params: "tss-to-tes"
     bed: "/home/panyq/Tools/index-scripts/os/rap-db/results/custom_bed/transcript.bed"
     bw:
-      - "results/deeptools/bw/control.bw"
-      - "results/deeptools/bw/sample1.bw"
-      - "results/deeptools/bw/sample2.bw"
-  sample1:
+      - "results/deeptools/bw/input_DNA.bw"
+      - "results/deeptools/bw/YP1_ChIPSeq.bw"
+      - "results/deeptools/bw/YP2_ChIPSeq.bw"
+  YP1_ChIPSeq:
     params: "peak"
-    bed: "results/callpeak/macs/narrow/sample1_peaks.narrowPeak"
+    bed: "results/callpeak/macs/narrow/YP1_ChIPSeq_peaks.narrowPeak"
     bw:
-      - "results/deeptools/bw/control.bw"
-      - "results/deeptools/bw/sample1.bw"
-  sample2:
+      - "results/deeptools/bw/YP1_ChIPSeq.bw"
+      - "results/deeptools/bw/input_DNA.bw"
+  YP2_ChIPSeq:
     params: "peak"
-    bed: "results/callpeak/macs/narrow/sample2_peaks.narrowPeak"
+    bed: "results/callpeak/macs/narrow/YP2_ChIPSeq_peaks.narrowPeak"
     bw:
-      - "results/deeptools/bw/control.bw"
-      - "results/deeptools/bw/sample2.bw"
+      - "results/deeptools/bw/YP2_ChIPSeq.bw"
+      - "results/deeptools/bw/input_DNA.bw"

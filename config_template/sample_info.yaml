@@ -1,20 +1,17 @@
 # Raw FASTQ paths for each sample.
 # For pair-ended data, specify them with R1 and R2.
-# For single-ended data, specify only R1, with R2 key removed.
+# For single-ended data, specify them with SE key.
 
 samples:
-  control:
-    R1: "path/to/control.R1.fq.gz"
-    R2: "path/to/control.R2.fq.gz"
-  treatment1:
-    R1: "path/to/treatment1.single-ended.fq.gz"
-  treatment2:
-    R1:
-      - "path/to/treatment2.R1.part1.fq.gz"
-      - "path/to/treatment2.R1.part2.fq.gz"
-    R2:
-      - "path/to/treatment2.R2.part1.fq.gz"
-      - "path/to/treatment2.R2.part2.fq.gz"
+  YP1_ChIPSeq:
+    R1: "/mnt/g/ChIP-seq/PP.2020.OsGRF7/rawdata/YP1_ChIPSeq.r1.fq.gz"
+    R2: "/mnt/g/ChIP-seq/PP.2020.OsGRF7/rawdata/YP1_ChIPSeq.r2.fq.gz"
+  YP2_ChIPSeq:
+    R1: "/mnt/g/ChIP-seq/PP.2020.OsGRF7/rawdata/YP2_ChIPSeq.r1.fq.gz"
+    R2: "/mnt/g/ChIP-seq/PP.2020.OsGRF7/rawdata/YP2_ChIPSeq.r2.fq.gz"
+  input_DNA:
+    R1: "/mnt/g/ChIP-seq/PP.2020.OsGRF7/rawdata/input_DNA.r1.fq.gz"
+    R2: "/mnt/g/ChIP-seq/PP.2020.OsGRF7/rawdata/input_DNA.r2.fq.gz"
 
 
 # BAM path for MACS callpeak.
@@ -25,14 +22,12 @@ peak_params:
 
 peaks:
   narrow:
-    peak1:
-      treatment: "results/read_mapping/treatment1.filter.bam"
-      control: "results/read_mapping/control.filter.bam"
-  broad:
-    peak2:
-      treatment: "results/read_mapping/treatment2.filter.bam"
-      control: "results/read_mapping/control.filter.bam"
-      extra_params: "faire"
+    YP1_ChIPSeq:
+      treatment: "results/read_mapping/bwa_mem/YP1_ChIPSeq.paired.filter.bam"
+      control: "results/read_mapping/bwa_mem/input_DNA.paired.filter.bam"
+    YP2_ChIPSeq:
+      treatment: "results/read_mapping/bwa_mem/YP2_ChIPSeq.paired.filter.bam"
+      control: "results/read_mapping/bwa_mem/input_DNA.paired.filter.bam"
 
 
 # BAM path for BigWig files.
@@ -40,9 +35,10 @@ peaks:
 # For bamCoverage, supply only b1, for bamCompare, supply both b1 and b2.
 
 bws:
-  treatment1:
-    b1: "results/read_mapping/treatment1.filter.bam"
-  treatment2:
-    b1: "results/read_mapping/treatment2.filter.bam"
-    b2: "results/read_mapping/control.filter.bam"
+  YP1_ChIPSeq:
+    b1: "results/read_mapping/bwa_mem/YP1_ChIPSeq.paired.filter.bam"
+  YP2_ChIPSeq:
+    b1: "results/read_mapping/bwa_mem/YP2_ChIPSeq.paired.filter.bam"
+  input_DNA:
+    b1: "results/read_mapping/bwa_mem/input_DNA.paired.filter.bam"
 

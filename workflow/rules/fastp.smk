@@ -35,13 +35,13 @@ rule fastp_pe:
         '''
 
 
-rule fastp_se:
+rule fastp_single:
     input:
-        r1 = "resources/cat/{sample_id}.R1.fastq.gz",
+        "resources/cat/{sample_id}.SE.fastq.gz",
     output:
-        se = temp("resources/fastp/{sample_id}.fastp.fastq.gz"),
-        json = "results/fastp/{sample_id}.fastp.json",
-        html = "results/fastp/{sample_id}.fastp.html"
+        se = temp("resources/fastp/{sample_id}.fastp.SE.fastq.gz"),
+        json = "results/fastp/{sample_id}.fastp.SE.json",
+        html = "results/fastp/{sample_id}.fastp.SE.html"
     log:
         "results/fastp/{sample_id}.fastp.log"
     threads:
@@ -54,7 +54,7 @@ rule fastp_se:
         '''
         fastp \
             --thread {threads} \
-            --in1 {input.r1} \
+            --in1 {input} \
             --out1 {output.se} \
             --json {output.json} \
             --html {output.html} \

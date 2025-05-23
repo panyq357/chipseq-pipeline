@@ -11,6 +11,8 @@ rule concat_fastq:
         temp("resources/cat/{sample_id}.{end}.fastq.gz"),
     log:
         "resources/cat/{sample_id}.{end}.log"
+    resources:
+        io = 50
     run:
         # If only one gzipped file, soft link it to save IO.
         if len(input) == 1 and input[0].lower().endswith(".gz"):

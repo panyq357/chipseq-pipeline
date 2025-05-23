@@ -1,4 +1,3 @@
-
 rule samtools_index:
     input:
         "{prefix}.bam"
@@ -13,14 +12,11 @@ rule flagstats:
         bam = "{prefix}.bam",
         bai = "{prefix}.bam.bai"
     output:
-        txt = "{prefix}.flagstats.txt"
+        "{prefix}.flagstats.txt"
     threads:
         4
     shell:
-        "samtools flagstats -@ {threads} {input.bam} > {output.txt}"
-
-
-ruleorder: bam_filter > bwa_mapping_pe > bwa_mapping_se
+        "samtools flagstats -@ {threads} {input.bam} > {output}"
 
 
 rule bam_filter:

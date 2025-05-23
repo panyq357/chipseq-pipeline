@@ -1,9 +1,8 @@
-
 genome: "/home/panyq/Tools/index-scripts/os/rap-db/results/genome/os.rap-db.genome.fa"
 
 gtf: "/home/panyq/Tools/index-scripts/os/rap-db/results/gtf/os.rap-db.make.gtf"
 
-rap-anno: "/home/panyq/Tools/index-scripts/os/rap-db/rawdata/IRGSP-1.0_representative_annotation_2023-09-07.tsv.gz"
+rap-anno: "/home/panyq/Tools/index-scripts/os/rap-db/rawdata/IRGSP-1.0_representative_annotation_2024-07-12.tsv.gz"
 
 oryzabase:
   xlsx: "/home/panyq/Tools/anno-resources/results/oryzabase-ontologies.xlsx"
@@ -12,5 +11,3 @@ oryzabase:
 kegg:
   pathway_to_gene: "/home/panyq/Tools/index-scripts/os/kegg/results/osa_pathway/pathway_to_rapdb.tsv"
   pathway_to_description: "/home/panyq/Tools/index-scripts/os/kegg/results/osa_pathway/pathway_to_description.tsv"
-
-
