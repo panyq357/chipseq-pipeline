@@ -17,9 +17,6 @@ include: "rules/meme.smk"
 
 rule all:
     input:
-        # bwa_mapping
-        expand("results/read_mapping/{sample}.flagstats.txt", sample=config["samples"]),
-
         # callpeak
         [f"results/callpeak/macs/{peak_type}/{peak}_peaks.{peak_type}Peak" for peak_type in config["peaks"] for peak in config["peaks"][peak_type]],
         "results/FRiP.pdf",
