@@ -1,0 +1,35 @@
+peak_sets:
+  H3K27me3_M:
+    - "results/callpeak/macs/narrow/H3K27me3_M-1_peaks.narrowPeak"
+    - "results/callpeak/macs/narrow/H3K27me3_M-2_peaks.narrowPeak"
+    - "results/callpeak/macs/narrow/H3K27me3_M-3_peaks.narrowPeak"
+  H3K27me3_WT:
+    - "results/callpeak/macs/narrow/H3K27me3_WT-1_peaks.narrowPeak"
+    - "results/callpeak/macs/narrow/H3K27me3_WT-3_peaks.narrowPeak"
+  H3K27me3_WT_M:
+    - "results/k_wise_intersection/H3K27me3_WT.2-wise-intersection.bed"
+    - "results/k_wise_intersection/H3K27me3_M.2-wise-intersection.bed"
+
+
+counts:
+  H3K27me3_WT_M:
+    gtf: "results/k_wise_intersection/H3K27me3_WT_M.2-wise-intersection.gtf"
+    bams:
+      H3K27me3_M-1: "results/read_mapping/bwa_mem/H3K27me3_M-1.paired.bam"
+      H3K27me3_M-2: "results/read_mapping/bwa_mem/H3K27me3_M-2.paired.bam"
+      H3K27me3_M-3: "results/read_mapping/bwa_mem/H3K27me3_M-3.paired.bam"
+      H3K27me3_WT-1: "results/read_mapping/bwa_mem/H3K27me3_WT-1.paired.bam"
+      H3K27me3_WT-3: "results/read_mapping/bwa_mem/H3K27me3_WT-3.paired.bam"
+
+deseq:
+  H3K27me3_WT_M:
+    sample_groups:
+      H3K27me3_WT:
+        - H3K27me3_WT-1
+        - H3K27me3_WT-3
+      H3K27me3_M:
+        - H3K27me3_M-1
+        - H3K27me3_M-2
+        - H3K27me3_M-3
+    levels: [ "H3K27me3_WT", "H3K27me3_M" ]
+

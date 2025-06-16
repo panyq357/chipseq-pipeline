@@ -2,6 +2,7 @@ configfile: "config/sample_info.yaml"
 configfile: "config/index_and_anno.yaml"
 configfile: "config/software_setting.yaml"
 configfile: "config/deeptools.yaml"
+configfile: "config/peak_overlap.yaml"
 
 
 include: "rules/concat_fastq.smk"
@@ -13,6 +14,7 @@ include: "rules/FRiP.smk"
 include: "rules/deeptools.smk"
 include: "rules/peak_anno.smk"
 include: "rules/meme.smk"
+include: "rules/peak_overlap.smk"
 
 
 rule all:
@@ -31,3 +33,7 @@ rule all:
 
         # meme
         # "results/callpeak/macs/narrow/{peak_name}_peaks.sort-by-fold_enrichment-1-500-summit-radius-50.meme-chip"
+
+        # peak_overlap
+        "results/k_wise_intersection/H3K27me3_WT_M.2-wise-intersection.gtf",
+        "results/counts/H3K27me3_WT_M.mark_counts.to-promoter.deseq.csv",
