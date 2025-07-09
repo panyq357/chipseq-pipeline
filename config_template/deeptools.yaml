@@ -1,0 +1,22 @@
+deeptools_params:
+  bamCoverage:
+    paired: "--binSize 20  --normalizeUsing BPM  --smoothLength 60  --extendReads  --centerReads"
+  bamCompare:
+    paired: "--binSize 20  --normalizeUsing BPM  --smoothLength 60  --extendReads  --centerReads  --scaleFactorsMethod None"
+  computeMatrix:
+    tss-to-tes: "scale-regions --regionBodyLength 5000 --upstream 2000 --downstream 2000"
+    peak: "reference-point --referencePoint center --upstream 1000 --downstream 1000"
+  plotHeatmap:
+    default: ""
+
+
+heatmap_jobs:
+  peak1-heatmap:
+    bw: 
+      treatment: "results/read_mapping/paired/treatment.filter-default.bamCoverage.param-paired.bw"
+      control: "results/read_mapping/paired/control.filter-default.bamCoverage.param-paired.bw"
+    bed:
+      peak1: "results/peak_calling/narrow/peak1_peaks.narrowPeak"
+    params:
+      computeMatrix: "peak"
+      plotHeatmap: "default"

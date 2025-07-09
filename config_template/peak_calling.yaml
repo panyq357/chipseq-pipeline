@@ -1,0 +1,8 @@
+macs_params:
+  default: "--format BAMPE"
+
+peak_calling_jobs:
+  narrow:  # "results/peak_calling/narrow/{peak_name}_peaks.narrowPeak"
+    peak1:
+      treatment: "results/read_mapping/paired/treatment.filter-default.bam"
+      control: "results/read_mapping/paired/control.filter-default.bam"

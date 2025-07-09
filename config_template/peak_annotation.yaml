@@ -1,0 +1,23 @@
+gtf: "/home/panyq/Tools/index-scripts/os/rap-db/results/gtf/os.rap-db.make.gtf"
+
+
+# A three column TSV with no header: | GeneID | Symbol | Description
+gene_info: "/home/panyq/Tools/index-scripts/os/rap-db/results/gene_info.tsv.gz"
+
+
+# term_to_gene: two column TSV with no header (e.g. "GO:0000028\tOs01g0100700\n")
+# term_to_description: two column TSV with no header (e.g. "GO:0000028\tribosomal small subunit assembly (BP)")
+enrichment_data:
+  osa_kegg:
+    term_to_gene: "/home/panyq/Tools/index-scripts/os/kegg/results/osa_pathway/pathway_to_rapdb.tsv"
+    term_to_description: "/home/panyq/Tools/index-scripts/os/kegg/results/osa_pathway/pathway_to_description.tsv"
+  oryzabase_rap_go:
+    term_to_gene: "/home/panyq/Tools/anno-resources/results/oryzabase.RAP_GO.term_to_gene.tsv.gz"
+    term_to_description: "/home/panyq/Tools/anno-resources/results/oryzabase.RAP_GO.term_to_description.tsv.gz"
+  oryzabase_rap_to:
+    term_to_gene: "/home/panyq/Tools/anno-resources/results/oryzabase.RAP_TO.term_to_gene.tsv.gz"
+    term_to_description: "/home/panyq/Tools/anno-resources/results/oryzabase.RAP_TO.term_to_description.tsv.gz"
+  oryzabase_rap_po:
+    term_to_gene: "/home/panyq/Tools/anno-resources/results/oryzabase.RAP_PO.term_to_gene.tsv.gz"
+    term_to_description: "/home/panyq/Tools/anno-resources/results/oryzabase.RAP_PO.term_to_description.tsv.gz"
+

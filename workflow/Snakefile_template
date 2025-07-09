@@ -1,0 +1,18 @@
+configfile: "config/read_mapping.yaml"
+configfile: "config/peak_calling.yaml"
+configfile: "config/deeptools.yaml"
+configfile: "config/peak_annotation.yaml"
+configfile: "config/meme.yaml"
+
+
+include: "rules/read_mapping.smk"
+include: "rules/peak_calling.smk"
+include: "rules/deeptools.smk"
+include: "rules/peak_annotation.smk"
+include: "rules/meme.smk"
+
+
+rule all:
+    input:
+        "results/all_flagstats.tsv", # End output of read_mapping.
+        "results/FRiP.pdf"  # End outputs of peak_calling.
