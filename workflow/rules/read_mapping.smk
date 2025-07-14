@@ -147,7 +147,7 @@ rule bwa_mem_paired:
     wildcard_constraints:
         sample_id ="[^.]+"
     threads:
-        20
+        config["bwa"]["threads"]
     priority:
         70
     shell:
@@ -178,7 +178,7 @@ rule bwa_mem_single:
     log:
         "results/read_mapping/single/{sample_id}.log"
     threads:
-        20
+        config["bwa"]["threads"]
     priority:
         70
     shell:
@@ -195,15 +195,15 @@ rule samtools_index:
     input:
         "{prefix}.bam"
     output:
-        "{prefix}.bam.bai"
+        "{prefix}.bam.csi"
     shell:
-        "samtools index {input}"
+        "samtools index -c {input}"
 
 
 rule flagstats:
     input:
         bam = "{prefix}.bam",
-        bai = "{prefix}.bam.bai"
+        csi = "{prefix}.bam.csi"
     output:
         "{prefix}.flagstats.txt"
     threads:

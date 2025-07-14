@@ -1,7 +1,7 @@
 rule bamCoverage:
     input:
         bam = "{prefix}.bam",
-        bai = "{prefix}.bam.bai",
+        csi = "{prefix}.bam.csi",
         mappable_genome_size = "results/mappable_genome_size"
     output:
         bw = "{prefix}.bamCoverage.param-{param}.bw"

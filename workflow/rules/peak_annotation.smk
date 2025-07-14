@@ -25,5 +25,5 @@ rule enricher_promoter:
     log:
         "results/peak_calling/{peak_type}/{peak_name}_peaks.ChIPseeker.enricher-promoter.log"
     script:
-        "../scripts/enricher.R"
+        "../scripts/peak_enricher.R"
 
