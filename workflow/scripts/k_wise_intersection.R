@@ -1,22 +1,28 @@
-peak_set <- lapply(snakemake@input, rtracklayer::import)
+peaks <- lapply(snakemake@input, rtracklayer::import)
 
-# Use combn to generate a list of all combination of k-wise intersection.
-# Then apply intersect to all combinations.
-overlap_list <- combn(peak_set, as.integer(snakemake@wildcards$k), simplify=F) |>
-  lapply(function(x) Reduce(GenomicRanges::intersect, x))
-
-# Take union of all combinations.
-if (length(overlap_list) == 1) {
-    overlap <- overlap_list[[1]]
-} else {
-    overlap <- Reduce(GenomicRanges::union, overlap_list)
+all_intersect <- function(gr_list) {
+  if (length(gr_list) == 1) {
+    return(gr_list[[1]])
+  } else {
+    return(Reduce(GenomicRanges::intersect, gr_list))
+  }
 }
 
-GenomicRanges::mcols(overlap)$name <- paste(
-  GenomicRanges::seqnames(overlap),
-  GenomicRanges::start(overlap),
-  GenomicRanges::end(overlap),
+all_union <- function(gr_list) {
+  if (length(gr_list) == 1) {
+    return(gr_list[[1]])
+  } else {
+    return(Reduce(GenomicRanges::union, gr_list))
+  }
+}
+
+out <- combn(peaks, snakemake@params$k, all_intersect, simplify=FALSE) |> all_union()
+
+GenomicRanges::mcols(out)$name <- paste(
+  GenomicRanges::seqnames(out),
+  GenomicRanges::start(out),
+  GenomicRanges::end(out),
   sep = "-"
 )
 
-rtracklayer::export(overlap, snakemake@output[[1]])
+rtracklayer::export(out, snakemake@output[[1]])

@@ -3,6 +3,7 @@ configfile: "config/peak_calling.yaml"
 configfile: "config/deeptools.yaml"
 configfile: "config/peak_annotation.yaml"
 configfile: "config/meme.yaml"
+configfile: "config/mark_counts.yaml"
 
 
 include: "rules/read_mapping.smk"
@@ -10,9 +11,17 @@ include: "rules/peak_calling.smk"
 include: "rules/deeptools.smk"
 include: "rules/peak_annotation.smk"
 include: "rules/meme.smk"
+include: "rules/mark_counts.smk"
 
 
 rule all:
     input:
-        "results/all_flagstats.tsv", # End output of read_mapping.
-        "results/FRiP.pdf"  # End outputs of peak_calling.
+        read_mapping = "results/all_flagstats.tsv", # End output of read_mapping.
+        peak_calling = "results/FRiP.pdf",  # End outputs of peak_calling.
+        heatmap = expand("results/deeptools/heatmaps/{heatmap}.heatmap.pdf", heatmap=config["heatmap_jobs"]),
+        de_enrich = expand("results/de_analysis/contrast/{name}.deseq2_contrast.padj-0.05.fc-1.2.enricher.xlsx", name=config["de_analysis_jobs"]["contrast"]),
+        de_volcano = expand("results/de_analysis/contrast/{name}.deseq2_contrast.padj-0.05.fc-1.2.volcano.svg", name=config["de_analysis_jobs"]["contrast"]),
+        cpm = [
+            "results/mark_counts/all-union-after-intersect.mark_counts.cpm.csv",
+            "results/mark_counts/all-union-after-intersect.mark_counts.cpm.assign-to-genebody.csv"
+        ]

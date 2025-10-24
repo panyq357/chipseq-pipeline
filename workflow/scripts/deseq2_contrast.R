@@ -51,7 +51,8 @@ nc <- counts(dds, normalized=TRUE)
 gene_info <- readr::read_tsv(snakemake@input$gene_info, col_names=c("geneID", "symbol", "description"))
 gene_info <- gene_info[match(row.names(res_df), gene_info$geneID),]
 
-res_df <- cbind(res_df, nc[match(row.names(res_df), row.names(nc)),], gene_info[-1], extra_column[row.names(res_df),, drop=FALSE])
+res_df <- cbind(res_df, nc[match(row.names(res_df), row.names(nc)),], gene_info[-1])
+res_df[snakemake@params$extra_column] <- extra_column[snakemake@params$extra_column]
 
 # Sort by padj
 res_df <- res_df[order(res_df$pvalue, decreasing=FALSE),]

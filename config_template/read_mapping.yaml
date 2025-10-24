@@ -1,4 +1,4 @@
-genome: "/home/panyq/Tools/index-scripts/os/rap-db/results/genome/os.rap-db.genome.fa"
+genome: "/home/panyq/repos/index-scripts/os/rap-db/results/genome/os.rap-db.genome.fa"
 
 
 read_mapping_jobs:

@@ -20,3 +20,10 @@ heatmap_jobs:
     params:
       computeMatrix: "peak"
       plotHeatmap: "default"
+
+
+bigwigAverage_jobs:
+  wildtype-average:  # "results/deeptools/bigwigAverage/wildtype-average.bw"
+  - "results/read_mapping/paired/wildtype-1.filter-default.bamCoverage.param-paired.bw"
+  - "results/read_mapping/paired/wildtype-2.filter-default.bamCoverage.param-paired.bw"
+  - "results/read_mapping/paired/wildtype-3.filter-default.bamCoverage.param-paired.bw"

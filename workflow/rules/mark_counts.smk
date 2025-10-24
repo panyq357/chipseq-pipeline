@@ -1,8 +1,10 @@
 rule k_wise_intersection:
     input:
-        lambda w: config["peak_sets"][w.name]
+        lambda w: config["k_wise_intersect_jobs"][w.name]["peaks"]
+    params:
+        k = lambda w: config["k_wise_intersect_jobs"][w.name]["k"]
     output:
-        "results/k_wise_intersection/{name}.{k}-wise-intersection.bed"
+        "results/k_wise_intersection/{name}.bed"
     script:
         "../scripts/k_wise_intersection.R"
 
@@ -12,8 +14,10 @@ rule bed_to_gtf:
         "{prefix}.bed"
     output:
         "{prefix}.gtf"
-    script:
-        "../scripts/bed_to_gtf.R"
+    shell:
+        '''
+        Rscript -e 'rtracklayer::import("{input}") |> rtracklayer::export("{output}", format="gtf")'
+        '''
 
 
 rule mark_counts:
@@ -41,10 +45,10 @@ rule get_genebody:
 
 rule assign_mark_to_feature:
     input:
-        mark_counts = "results/mark_counts/{name}.mark_counts.csv",
+        mark_counts = "{prefix}.csv",
         feature = "results/features/{feature}.bed",
     output:
-        "results/mark_counts/{name}.mark_counts.assign-to-{feature}.csv",
+        "{prefix}.assign-to-{feature}.csv",
     wildcard_constraints:
         feature = "[^-.]+"
     script:
@@ -61,7 +65,8 @@ rule deseq2_contrast:
     log:
         "results/de_analysis/contrast/{name}.deseq2_contrast.log"
     params:
-        levels = lambda w: config["de_analysis_jobs"]["contrast"][w.name]["levels"]
+        levels = lambda w: config["de_analysis_jobs"]["contrast"][w.name]["levels"],
+        extra_column = "OriginMark"
     script:
         "../scripts/deseq2_contrast.R"
 
@@ -75,6 +80,17 @@ rule volcano_plot:
         "results/de_analysis/{type}/{name}.deseq2_{type}.{p_column}-{p_th}.fc-{fc_th}.volcano.log"
     script:
         "../scripts/volcano_plot.R"
+
+
+rule de_feature:
+    input:
+        de_res = "results/de_analysis/{type}/{name}.deseq2_{type}.csv",
+        feature = "results/features/{feature}.bed",
+    output:
+        up = "results/de_analysis/{type}/{name}.deseq2_{type}.{p_column}-{p_th}.fc-{fc_th}.up.{feature}.bed",
+        down = "results/de_analysis/{type}/{name}.deseq2_{type}.{p_column}-{p_th}.fc-{fc_th}.down.{feature}.bed"
+    script:
+        "../scripts/de_feature.R"
 
 
 rule de_res_enricher:
@@ -91,3 +107,13 @@ rule de_res_enricher:
     script:
         "../scripts/de_res_enricher.R"
 
+
+rule counts_to_cpm:
+    input:
+        "{prefix}.csv"
+    output:
+        "{prefix}.cpm.csv"
+    shell:
+        '''
+        Rscript -e 'read.csv("{input}", row.names=1, check.names=F) |> edgeR::cpm() |> write.csv("{output}")'
+        '''

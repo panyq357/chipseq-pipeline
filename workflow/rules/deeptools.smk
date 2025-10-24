@@ -72,3 +72,13 @@ rule plotHeatmap:
         '''
 
 
+
+rule bigwigAverage:
+    input:
+        lambda w: config["bigwigAverage_jobs"][w.name]
+    output:
+        "results/deeptools/bigwigAverage/{name}.bw"
+    threads:
+        20
+    shell:
+        "bigwigAverage -b {input} -o {output} -p {threads}"

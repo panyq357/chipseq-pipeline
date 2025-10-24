@@ -1,13 +1,19 @@
-peak_sets:
+k_wise_intersect_jobs:
   wildtype-peaks:
+    k: 3
+    peaks:
     - "results/peak_calling/broad/wt1_peaks.broadPeak"
     - "results/peak_calling/broad/wt2_peaks.broadPeak"
     - "results/peak_calling/broad/wt3_peaks.broadPeak"
   mutant-peaks:
+    k: 3
+    peaks:
     - "results/peak_calling/broad/m1_peaks.broadPeak"
     - "results/peak_calling/broad/m2_peaks.broadPeak"
     - "results/peak_calling/broad/m3_peaks.broadPeak"
   wildtype-or-mutant-peaks:
+    k: 1
+    peaks:
     - "results/k_wise_intersection/wildtype-peaks.2-wise-intersection.bed"
     - "results/k_wise_intersection/mutant-peaks.2-wise-intersection.bed"
 
@@ -18,7 +24,7 @@ featureCounts:
 
 mark_count_jobs:
   wildtype-or-mutant:
-    gtf: "results/k_wise_intersection/wildtype-or-mutant-peaks.2-wise-intersection.gtf"
+    gtf: "results/k_wise_intersection/wildtype-or-mutant-peaks.gtf"
     bams:
       wildtype-1: results/read_mapping/paired/wildtype-1.bam
       wildtype-2: results/read_mapping/paired/wildtype-2.bam
@@ -29,7 +35,7 @@ mark_count_jobs:
 
 
 # For assign mark counts to gene.
-genome_gtf: "/home/panyq/Tools/index-scripts/ta/iwgsc_refseq_v2.1/results/gtf/iwgsc_refseq_v2.1.make.gtf"
+genome_gtf: "/home/panyq/repos/index-scripts/os/rap-db/results/gtf/os.rap-db.make.gtf"
 
 
 # For DESeq2 analysis.
