@@ -25,11 +25,13 @@ rule mark_counts:
         gtf = lambda w: config["mark_count_jobs"][w.name]["gtf"],
         bams = lambda w: config["mark_count_jobs"][w.name]["bams"].values()
     output:
-        counts_csv = "results/mark_counts/{name}.mark_counts.csv",
+        counts_csv = "results/mark_counts/{name}.mark_counts.csv"
     params:
         colnames = lambda w: config["mark_count_jobs"][w.name]["bams"].keys()
     threads:
         config["featureCounts"]["threads"]
+    log:
+        "results/mark_counts/{name}.mark_counts.log"
     script:
         "../scripts/mark_counts.R"
 
@@ -113,7 +115,5 @@ rule counts_to_cpm:
         "{prefix}.csv"
     output:
         "{prefix}.cpm.csv"
-    shell:
-        '''
-        Rscript -e 'read.csv("{input}", row.names=1, check.names=F) |> edgeR::cpm() |> write.csv("{output}")'
-        '''
+    script:
+        "../scripts/counts_to_cpm.R"
