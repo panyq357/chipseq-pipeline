@@ -25,18 +25,29 @@ rule bamCoverage:
         '''
 
 
+rule bigwigAverage:
+    input:
+        lambda w: config["bigwigAverage_jobs"][w.name]
+    output:
+        "results/deeptools/bigwigAverage/{name}.bw"
+    threads:
+        20
+    shell:
+        "bigwigAverage -b {input} -o {output} -p {threads}"
+
+
 rule computeMatrix:
     input:
-        bw = lambda w: config["heatmap_jobs"][w.heatmap]["bw"].values(),
-        bed = lambda w: config["heatmap_jobs"][w.heatmap]["bed"].values()
+        bw = lambda w: config["computeMatrix_jobs"][w.name]["bw"].values(),
+        bed = lambda w: config["computeMatrix_jobs"][w.name]["bed"].values()
     output:
-        temp("results/deeptools/heatmaps/{heatmap}.mat.gz")
+        "results/deeptools/plots/{name}.mat.gz"
     params:
-        lambda w: config["deeptools_params"]["computeMatrix"][config["heatmap_jobs"][w.heatmap]["params"]["computeMatrix"]]
+        lambda w: config["deeptools_params"]["computeMatrix"][config["computeMatrix_jobs"][w.name]["param"]]
     threads:
         20
     log:
-        "results/deeptools/heatmaps/{heatmap}.computeMatrix.log"
+        "results/deeptools/plots/{name}.log"
     resources:
         io = 100
     shell:
@@ -52,15 +63,17 @@ rule computeMatrix:
 
 rule plotHeatmap:
     input:
-        "results/deeptools/heatmaps/{heatmap}.mat.gz"
+        "results/deeptools/plots/{name}.mat.gz"
     output:
-        "results/deeptools/heatmaps/{heatmap}.heatmap.pdf"
+        "results/deeptools/plots/{name}.heatmap-{param}.pdf"
     params:
-        sample_labels = lambda w: list(config["heatmap_jobs"][w.heatmap]["bw"].keys()),
-        region_labels = lambda w: list(config["heatmap_jobs"][w.heatmap]["bed"].keys()),
-        extra_params = lambda w: config["deeptools_params"]["plotHeatmap"][config["heatmap_jobs"][w.heatmap]["params"]["plotHeatmap"]]
+        sample_labels = lambda w: list(config["computeMatrix_jobs"][w.name]["bw"].keys()),
+        region_labels = lambda w: list(config["computeMatrix_jobs"][w.name]["bed"].keys()),
+        extra_params = lambda w: config["deeptools_params"]["plotHeatmap"][w.param]
     log:
-        "results/deeptools/heatmaps/{heatmap}.plotHeatmap.log"
+        "results/deeptools/plots/{name}.heatmap-{param}.log"
+    wildcard_constraints:
+        name = "[^.]+"
     shell:
         '''
         plotHeatmap {params.extra_params} \
@@ -68,17 +81,31 @@ rule plotHeatmap:
             --outFileName {output} \
             --samplesLabel {params.sample_labels} \
             --regionsLabel {params.region_labels} \
+            {params.extra_params}
             2> {log}
         '''
 
 
 
-rule bigwigAverage:
+
+rule plotProfile:
     input:
-        lambda w: config["bigwigAverage_jobs"][w.name]
+        "results/deeptools/plots/{name}.mat.gz"
     output:
-        "results/deeptools/bigwigAverage/{name}.bw"
-    threads:
-        20
+        "results/deeptools/plots/{name}.profile-{param}.pdf"
+    params:
+        sample_labels = lambda w: list(config["computeMatrix_jobs"][w.name]["bw"].keys()),
+        region_labels = lambda w: list(config["computeMatrix_jobs"][w.name]["bed"].keys()),
+        extra_params = lambda w: config["deeptools_params"]["plotProfile"][w.param]
+    log:
+        "results/deeptools/plots/{name}.profile-{param}.log"
     shell:
-        "bigwigAverage -b {input} -o {output} -p {threads}"
+        '''
+        plotProfile \
+            --matrixFile {input} \
+            --outFileName {output} \
+            --samplesLabel {params.sample_labels} \
+            --regionsLabel {params.region_labels} \
+            {params.extra_params}
+            2> {log}
+        '''

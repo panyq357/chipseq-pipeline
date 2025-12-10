@@ -8,18 +8,20 @@ deeptools_params:
     peak: "reference-point --referencePoint center --upstream 1000 --downstream 1000"
   plotHeatmap:
     default: ""
+  plotProfile:
+    default: ""
+    perGroup: "--perGroup"
 
 
-heatmap_jobs:
-  peak1-heatmap:
+computeMatrix_jobs:
+  tss-to-tes:
+    param: "tss-to-tes"
     bw: 
       treatment: "results/read_mapping/paired/treatment.filter-default.bamCoverage.param-paired.bw"
       control: "results/read_mapping/paired/control.filter-default.bamCoverage.param-paired.bw"
     bed:
       peak1: "results/peak_calling/narrow/peak1_peaks.narrowPeak"
-    params:
-      computeMatrix: "peak"
-      plotHeatmap: "default"
+
 
 
 bigwigAverage_jobs:
