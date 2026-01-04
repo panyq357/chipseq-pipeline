@@ -18,10 +18,10 @@ rule all:
     input:
         read_mapping = "results/all_flagstats.tsv", # End output of read_mapping.
         peak_calling = "results/FRiP.pdf",  # End outputs of peak_calling.
-        heatmap = expand("results/deeptools/heatmaps/{heatmap}.heatmap.pdf", heatmap=config["heatmap_jobs"]),
-        de_enrich = expand("results/de_analysis/contrast/{name}.deseq2_contrast.padj-0.05.fc-1.2.enricher.xlsx", name=config["de_analysis_jobs"]["contrast"]),
-        de_volcano = expand("results/de_analysis/contrast/{name}.deseq2_contrast.padj-0.05.fc-1.2.volcano.svg", name=config["de_analysis_jobs"]["contrast"]),
-        cpm = [
-            "results/mark_counts/all-union-after-intersect.mark_counts.cpm.csv",
-            "results/mark_counts/all-union-after-intersect.mark_counts.cpm.assign-to-genebody.csv"
-        ]
+        heatmap = expand("results/deeptools/plots/{heatmap}.heatmap-default.pdf", heatmap=config["computeMatrix_jobs"]),
+#        de_enrich = expand("results/de_analysis/contrast/{name}.deseq2_contrast.padj-0.05.fc-1.2.enricher.xlsx", name=config["de_analysis_jobs"]["contrast"]),
+#        de_volcano = expand("results/de_analysis/contrast/{name}.deseq2_contrast.padj-0.05.fc-1.2.volcano.svg", name=config["de_analysis_jobs"]["contrast"]),
+#        cpm = [
+#            "results/mark_counts/all-union-after-intersect.mark_counts.cpm.csv",
+#            "results/mark_counts/all-union-after-intersect.mark_counts.cpm.assign-to-genebody.csv"
+#        ]
