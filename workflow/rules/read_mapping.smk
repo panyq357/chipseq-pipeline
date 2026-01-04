@@ -235,3 +235,15 @@ rule bam_filter:
     shell:
         "samtools view -@{threads} -b -h {params} {input} > {output}"
 
+
+rule samtools_merge:
+    input:
+        lambda w: config["samtools_merge_jobs"][w.name]
+    output:
+        "results/read_mapping/merge/{name}.bam"
+    threads:
+        4
+    wildcard_constraints:
+        name = "[^.]+"
+    shell:
+        "samtools merge -@ {threads} {output} {input}"

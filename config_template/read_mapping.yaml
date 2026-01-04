@@ -30,5 +30,9 @@ samtools:
 
 
 bam_filters:  # results/read_mapping/{seq_mode}/{name}.filter-{filter}.bam"
-  default: "-F 1284"  # 1284 stands for "unmapped", "not primary mapped" and "is PCR or optical duplicate"
+  default: "-F 1284 -e '(qlen - sclen) >= 50'"  # 1284 stands for "unmapped", "not primary mapped" and "is PCR or optical duplicate"
 
+samtools_merge_jobs:  # results/read_mapping/merge/{name}.bam
+  wt-merge:
+    - "results/read_mapping/paired/wt-1.bam"
+    - "results/read_mapping/paired/wt-2.bam"
